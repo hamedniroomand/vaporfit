@@ -79,12 +79,6 @@ A pull request that changes `data/` runs the loader checks and the probes of the
 
 ## Build the docs site
 
-The site in `docs/` uses [VitePress](https://vitepress.dev). It has its own dependencies. Install them once:
-
-```sh
-vp run docs:install
-```
-
-`vp run docs:dev` starts the site on your machine. `vp run docs:build` writes it to `docs/.vitepress/dist`.
+The site in `docs/` uses [VitePress](https://vitepress.dev). `vp run docs:dev` starts the site on your machine. `vp run docs:build` writes it to `docs/.vitepress/dist`.
 
 Both commands first run `scripts/docs-data.ts`. That script writes the library table and the rule table into `docs/2.libraries.md` and `docs/3.rules.md` from the files in `data/`. Do not edit the tables by hand.

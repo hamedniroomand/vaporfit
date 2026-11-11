@@ -1,0 +1,41 @@
+name: Wrong result
+description: vaporfit reports a problem that does not exist, or misses a feature that breaks.
+labels: [data]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind
+      options:
+        - False finding (the feature works in a Vapor component)
+        - Missed finding (the feature breaks, but vaporfit reports ready)
+    validations:
+      required: true
+  - type: input
+    id: rule
+    attributes:
+      label: Rule or library
+      description: The rule id from the report, or the package name.
+      placeholder: reka-ui/as-child
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: What the component does in the browser with and without `vapor`. A small project or a link helps.
+    validations:
+      required: true
+  - type: textarea
+    id: finding
+    attributes:
+      label: The finding
+      description: The lines of the report for this component, or "none".
+      render: text
+  - type: input
+    id: versions
+    attributes:
+      label: vaporfit, Vue and library versions
+      placeholder: vaporfit 0.1.0, vue 3.6.0-rc.14, reka-ui 2.11.0
+    validations:
+      required: true
