@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 0,
+  "id": "vapor/object-directive",
+  "title": "An object directive is skipped in a Vapor template. Only a development build warns",
+  "tiers": ["interop", "pure"],
+  "failure": "silent",
+  "detection": "static",
+  "fix": null,
+  "verified": {
+    "vue": "3.6.0-rc.14",
+    "date": "2026-11-10"
+  },
+  "sources": [
+    "https://github.com/vuejs/core/releases/tag/v3.6.0-rc.1",
+    "https://github.com/vuejs/core/blob/v3.6.0-rc.14/packages/runtime-vapor/src/directives/custom.ts#L209"
+  ]
+}

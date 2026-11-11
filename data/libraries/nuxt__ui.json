@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 0,
+  "package": "@nuxt/ui",
+  "repository": "https://github.com/nuxt/ui",
+  "verified": {
+    "version": "4.12.0",
+    "vue": "3.6.0-rc.14",
+    "date": "2026-11-10"
+  },
+  "declared": null,
+  "interop": {
+    "status": "unknown",
+    "evidence": []
+  },
+  "features": [
+    {
+      "id": "nuxt-ui/as-child",
+      "match": {
+        "kind": "prop",
+        "name": "as-child",
+        "from": "@nuxt/ui"
+      },
+      "status": "unknown",
+      "failure": "silent",
+      "message": "A maintainer reports that components with an as-child trigger are broken in a Vapor component. Not tested",
+      "evidence": [
+        {
+          "level": "issue",
+          "url": "https://github.com/nuxt/ui/issues/6395",
+          "state": "open"
+        }
+      ],
+      "fixedIn": null
+    }
+  ]
+}

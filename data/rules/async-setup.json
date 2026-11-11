@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 0,
+  "id": "vapor/async-setup",
+  "title": "A top-level await in script setup throws in Vapor",
+  "tiers": ["pure"],
+  "failure": "runtime-error",
+  "detection": "static",
+  "fix": null,
+  "verified": {
+    "vue": "3.6.0-rc.14",
+    "date": "2026-11-11"
+  },
+  "sources": [
+    "https://github.com/vuejs/core/releases/tag/v3.6.0-rc.14",
+    "https://github.com/vuejs/core/blob/v3.6.0-rc.14/CHANGELOG.md"
+  ]
+}

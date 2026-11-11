@@ -1,0 +1,19 @@
+{
+  "name": "repro-vueuse-on-click-outside",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "3.6.0-rc.14",
+    "@vueuse/components": "15.0.0",
+    "@vueuse/core": "15.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "6.0.10",
+    "vite": "8.3.7"
+  }
+}

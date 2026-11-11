@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 0,
+  "package": "@tanstack/vue-query",
+  "repository": "https://github.com/TanStack/query",
+  "verified": {
+    "version": "5.107.1",
+    "vue": "3.6.0-rc.14",
+    "date": "2026-11-10"
+  },
+  "declared": null,
+  "interop": {
+    "status": "unknown",
+    "evidence": []
+  },
+  "features": []
+}

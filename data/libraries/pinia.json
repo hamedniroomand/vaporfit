@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 0,
+  "package": "pinia",
+  "repository": "https://github.com/vuejs/pinia",
+  "verified": {
+    "version": "4.1.0",
+    "vue": "3.6.0-rc.14",
+    "date": "2026-11-10"
+  },
+  "declared": null,
+  "interop": {
+    "status": "partial",
+    "evidence": [
+      {
+        "level": "tested",
+        "depth": "D1",
+        "environment": "vite build, Chrome 156",
+        "probe": "repros/pinia-store",
+        "what": "a store, storeToRefs, an action, a getter"
+      }
+    ]
+  },
+  "features": [],
+  "notes": "Maintainer comment, no version named: https://github.com/vuejs/pinia/discussions/3106#discussioncomment-15896124"
+}

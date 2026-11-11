@@ -1,0 +1,7 @@
+{
+  "name": "vaporfit-demo-fixture",
+  "private": true,
+  "dependencies": {
+    "demo-ui": "1.0.0"
+  }
+}

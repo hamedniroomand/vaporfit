@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ready:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: voidzero-dev/setup-vp@v1.22.0
+        with:
+          node-version: 22
+          cache: true
+      - name: Install Chrome
+        uses: browser-actions/setup-chrome@v2
+      # The tests read the installed packages of the test fixture and of the repros.
+      - name: Install the test fixture
+        run: vp -C test/fixtures/shadcn install --frozen-lockfile -- --ignore-workspace
+      - name: Repros
+        run: vp run repros
+      - name: Ready
+        run: vp run ready
+      - name: Check the package (publint, are-the-types-wrong)
+        run: |
+          npx --yes publint --pack npm --strict .
+          npx --yes @arethetypeswrong/cli --pack . --profile esm-only

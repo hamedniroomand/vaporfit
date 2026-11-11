@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 0,
+  "package": "vue-router",
+  "repository": "https://github.com/vuejs/router",
+  "verified": {
+    "version": "5.4.0",
+    "vue": "3.6.0-rc.14",
+    "date": "2026-11-10"
+  },
+  "declared": null,
+  "interop": {
+    "status": "partial",
+    "evidence": [
+      {
+        "level": "tested",
+        "depth": "D1",
+        "environment": "vite build, Chrome 156",
+        "probe": "repros/vue-router-interop",
+        "what": "useRoute, useRouter, RouterLink, RouterView, one navigation"
+      }
+    ]
+  },
+  "features": [
+    {
+      "id": "vue-router/global-properties",
+      "match": {
+        "kind": "globalProperty",
+        "names": ["$route", "$router"]
+      },
+      "status": "broken",
+      "failure": "runtime-error",
+      "message": "A global property of vue-router is not available in a Vapor template. Use useRoute() or useRouter()",
+      "evidence": [
+        {
+          "level": "tested",
+          "depth": "D1",
+          "environment": "vite build, Chrome 156",
+          "probe": "repros/vue-router-global-route",
+          "what": "$route.path throws"
+        },
+        {
+          "level": "source",
+          "url": "https://github.com/vuejs/core/blob/v3.6.0-rc.14/packages/runtime-vapor/src/component.ts#L880"
+        }
+      ],
+      "fixedIn": null
+    }
+  ],
+  "notes": "Vapor versions of RouterView and RouterLink are in an open pull request: https://github.com/vuejs/router/pull/2509"
+}

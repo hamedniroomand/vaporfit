@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 0,
+  "package": "vuetify",
+  "repository": "https://github.com/vuetifyjs/vuetify",
+  "verified": {
+    "version": "4.3.3",
+    "vue": "3.6.0-rc.14",
+    "date": "2026-11-10"
+  },
+  "declared": null,
+  "interop": {
+    "status": "unknown",
+    "evidence": []
+  },
+  "features": [
+    {
+      "id": "vuetify/v-ripple",
+      "match": {
+        "kind": "directive",
+        "name": "ripple",
+        "export": "Ripple",
+        "from": "vuetify/directives"
+      },
+      "status": "broken",
+      "failure": "silent",
+      "message": "v-ripple is an object directive. Vapor skips it and a click shows no ripple",
+      "evidence": [
+        {
+          "level": "tested",
+          "depth": "D1",
+          "environment": "vite build, Chrome 156",
+          "probe": "repros/vuetify-v-ripple"
+        }
+      ],
+      "fixedIn": null
+    },
+    {
+      "id": "vuetify/global-properties",
+      "match": {
+        "kind": "globalProperty",
+        "names": ["$vuetify"]
+      },
+      "status": "broken",
+      "failure": "runtime-error",
+      "message": "$vuetify is undefined in a Vapor template. $vuetify.display throws",
+      "evidence": [
+        {
+          "level": "tested",
+          "depth": "D1",
+          "environment": "vite build, Chrome 156",
+          "probe": "repros/vuetify-global",
+          "what": "$vuetify.display.mobile throws"
+        }
+      ],
+      "fixedIn": null
+    }
+  ]
+}

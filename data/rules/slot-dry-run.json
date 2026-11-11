@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 0,
+  "id": "vapor/slot-dry-run",
+  "title": "A call of a slot function renders the slot. It is not a safe way to examine the content",
+  "tiers": ["interop", "pure"],
+  "failure": "silent",
+  "detection": "static",
+  "fix": null,
+  "verified": {
+    "vue": "3.6.0-rc.14",
+    "date": "2026-11-10"
+  },
+  "sources": ["https://github.com/vuejs/core/releases/tag/v3.6.0-rc.1"]
+}

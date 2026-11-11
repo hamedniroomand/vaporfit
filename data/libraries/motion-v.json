@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 0,
+  "package": "motion-v",
+  "repository": "https://github.com/motiondivision/motion-vue",
+  "verified": {
+    "version": "2.11.1",
+    "vue": "3.6.0-rc.14",
+    "date": "2026-11-10"
+  },
+  "declared": null,
+  "interop": {
+    "status": "unknown",
+    "evidence": []
+  },
+  "features": []
+}

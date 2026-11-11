@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 0,
+  "package": "@vueuse/core",
+  "repository": "https://github.com/vueuse/vueuse",
+  "verified": {
+    "version": "15.0.0",
+    "vue": "3.6.0-rc.14",
+    "date": "2026-11-10"
+  },
+  "declared": {
+    "scope": "partial",
+    "since": "14.0.0",
+    "url": "https://github.com/vueuse/vueuse/releases/tag/v14.0.0",
+    "quote": "Support provideLocal/injectLocal in vapor mode"
+  },
+  "interop": {
+    "status": "partial",
+    "evidence": [
+      {
+        "level": "tested",
+        "depth": "D1",
+        "environment": "vite build, Chrome 156",
+        "probe": "repros/vueuse-composables",
+        "what": "useVModel, useToggle, useElementSize, onClickOutside, useLocalStorage"
+      }
+    ]
+  },
+  "features": []
+}

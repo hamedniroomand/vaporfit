@@ -1,0 +1,49 @@
+name: Docs
+
+# Builds the docs site and deploys it to GitHub Pages on each push to main.
+# The repository must use "GitHub Actions" as the Pages source (Settings → Pages).
+# The site is built for the root of its domain (`url` in docs/.config/docs.yaml), so the
+# custom domain must be set in the Pages settings.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docs
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: voidzero-dev/setup-vp@v1.22.0
+        with:
+          node-version: 22
+          cache: true
+      - name: Install the docs site
+        run: vp run docs:install
+      - name: Build
+        run: vp run docs:build
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: docs/.output/public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      # Proves to GitHub Pages that this workflow is the source of the deployment.
+      id-token: write
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

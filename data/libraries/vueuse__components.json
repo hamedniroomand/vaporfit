@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 0,
+  "package": "@vueuse/components",
+  "repository": "https://github.com/vueuse/vueuse",
+  "verified": {
+    "version": "15.0.0",
+    "vue": "3.6.0-rc.14",
+    "date": "2026-11-10"
+  },
+  "declared": null,
+  "interop": {
+    "status": "unknown",
+    "evidence": []
+  },
+  "features": [
+    {
+      "id": "vueuse/v-on-click-outside",
+      "match": {
+        "kind": "directive",
+        "name": "on-click-outside",
+        "export": "vOnClickOutside",
+        "from": "@vueuse/components"
+      },
+      "status": "broken",
+      "failure": "silent",
+      "message": "v-on-click-outside is an object directive. Vapor skips it",
+      "evidence": [
+        {
+          "level": "tested",
+          "depth": "D1",
+          "environment": "vite build, Chrome 156",
+          "probe": "repros/vueuse-on-click-outside"
+        },
+        {
+          "level": "issue",
+          "url": "https://github.com/vueuse/vueuse/issues/5542",
+          "state": "open"
+        }
+      ],
+      "fixedIn": null
+    }
+  ]
+}

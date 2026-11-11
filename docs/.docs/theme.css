@@ -1,0 +1,71 @@
+@import '@fontsource-variable/fraunces/full.css';
+
+:root {
+  --vf-display: 'Fraunces Variable', ui-serif, Georgia, serif;
+  --vf-ease: cubic-bezier(0.2, 0.7, 0.1, 1);
+}
+
+h1,
+h2,
+.vf-display {
+  font-family: var(--vf-display);
+  font-variation-settings:
+    'SOFT' 70,
+    'WONK' 0;
+  letter-spacing: -0.015em;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--brand) 35%, transparent);
+}
+
+/* The header of the landing page is on the dark sky of the hero, in the light theme too. */
+html[data-vf-hero] header {
+  --foreground: #fafafa;
+  --muted-foreground: rgb(255 255 255 / 0.78);
+  --border: rgb(255 255 255 / 0.24);
+  --input: rgb(255 255 255 / 0.24);
+  --accent: rgb(255 255 255 / 0.14);
+  --muted: rgb(255 255 255 / 0.1);
+  --card: rgb(13 16 48 / 0.4);
+  --background: rgb(13 16 48 / 0.35);
+  color: #fafafa;
+}
+
+/* A block with `data-reveal` shows its `.vf-r` children one after the other. `--i` sets the order. */
+[data-reveal='out'] .vf-r {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+[data-reveal='in'] .vf-r {
+  animation: vf-rise 0.8s var(--vf-ease) both;
+  animation-delay: calc(var(--i, 0) * 90ms);
+}
+
+@keyframes vf-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+
+/* The line at the top of a docs page that shows how far the reader is. */
+.vf-progress {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 60;
+  height: 2px;
+  background: var(--brand);
+  transform: scaleX(var(--vf-progress, 0));
+  transform-origin: left;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] .vf-r {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

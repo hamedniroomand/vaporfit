@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 0,
+  "package": "nuxt",
+  "repository": "https://github.com/nuxt/nuxt",
+  "verified": {
+    "version": "4.6.4",
+    "vue": "3.6.0-rc.14",
+    "date": "2026-11-10"
+  },
+  "declared": {
+    "scope": "interop-only",
+    "since": "4.6.0",
+    "url": "https://github.com/nuxt/nuxt/releases/tag/v4.6.0",
+    "quote": "Nuxt now supports Vue 3.6's Vapor Mode in interop mode (#35759)."
+  },
+  "interop": {
+    "status": "unknown",
+    "evidence": []
+  },
+  "features": []
+}

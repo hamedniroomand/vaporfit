@@ -1,0 +1,69 @@
+name: Weekly data
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 6 * * 1'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: weekly-data
+  cancel-in-progress: false
+
+jobs:
+  weekly:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: voidzero-dev/setup-vp@v1.22.0
+        with:
+          node-version: 22
+          cache: true
+      - name: Install Chrome
+        uses: browser-actions/setup-chrome@v2
+      - name: Read versions and run probes
+        id: plan
+        env:
+          GH_TOKEN: ${{ github.token }}
+          WEEKLY_OUT: ${{ runner.temp }}/weekly
+        run: vpx scripts/weekly.ts
+      - name: Open the pull request
+        if: steps.plan.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          branch="data-weekly-${GITHUB_RUN_ID}"
+          git checkout -b "$branch"
+          git add data/libraries
+          git commit -m "chore: update verified library versions"
+          git push origin "$branch"
+          gh pr create --title "Weekly data check" --body-file "${{ runner.temp }}/weekly/pr-body.md"
+      - name: Open, update or close the issue
+        if: steps.plan.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          TITLE: The Vapor data is behind
+          CLOSE: ${{ steps.plan.outputs.close_issue }}
+          WEEKLY_OUT: ${{ runner.temp }}/weekly
+        run: |
+          set -euo pipefail
+          number=$(gh issue list --state open --json number,title \
+            --jq "[.[] | select(.title == \"$TITLE\")][0].number // empty")
+          if [ "$CLOSE" = true ] && [ -n "$number" ]; then
+            gh issue close "$number" --comment "The list is empty."
+          elif [ "$CLOSE" != true ] && [ -z "$number" ]; then
+            gh issue create --title "$TITLE" --body-file "$WEEKLY_OUT/issue-body.md"
+          elif [ "$CLOSE" != true ]; then
+            gh issue edit "$number" --body-file "$WEEKLY_OUT/issue-body.md"
+          fi

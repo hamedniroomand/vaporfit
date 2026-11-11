@@ -1,0 +1,86 @@
+# The root package, the docs site and the workflows get updates. The probes in repros/, the
+# example app in apps/ and the projects in test/fixtures/ have no entry here. Their versions are
+# pinned on purpose: the data and the tests record results for those exact versions.
+
+version: 2
+
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: '05:00'
+    # A new release waits before it gets a pull request. A bad release is usually removed
+    # from the registry in that time.
+    cooldown:
+      default-days: 3
+      semver-major-days: 7
+    open-pull-requests-limit: 5
+    # package.json and the lockfile always change together.
+    versioning-strategy: increase
+    commit-message:
+      prefix: chore
+      include: scope
+    # A dependency goes into the first group that matches it.
+    groups:
+      # The compiler packages have one exact version. They move together.
+      vue-compiler:
+        patterns:
+          - '@vue/*'
+      # devframe and @devframes/agentic must have the same exact version.
+      devframe:
+        patterns:
+          - devframe
+          - '@devframes/*'
+      # The catalog in pnpm-workspace.yaml. Dependabot does not change minimumReleaseAgeExclude
+      # in that file. Change that list in the same pull request.
+      vite-plus:
+        patterns:
+          - vite
+          - vite-plus
+          - '@voidzero-dev/*'
+      dev-dependencies:
+        dependency-type: development
+        update-types:
+          - minor
+          - patch
+    ignore:
+      # engines.node is >=22.18. The Node types stay on that major version.
+      - dependency-name: '@types/node'
+        update-types:
+          - version-update:semver-major
+
+  # The docs site has its own lockfile. One pull request has all its updates.
+  - package-ecosystem: npm
+    directory: /docs
+    schedule:
+      interval: weekly
+      day: monday
+      time: '05:00'
+    cooldown:
+      default-days: 3
+    versioning-strategy: increase
+    commit-message:
+      prefix: chore
+      include: scope
+    groups:
+      docs-site:
+        patterns:
+          - '*'
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: '05:00'
+    cooldown:
+      default-days: 3
+    commit-message:
+      prefix: ci
+      include: scope
+    groups:
+      actions:
+        patterns:
+          - '*'

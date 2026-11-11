@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 0,
+  "id": "vapor/nuxt-interop-only",
+  "title": "A Nuxt project supports interop mode only",
+  "tiers": ["pure"],
+  "failure": "none",
+  "detection": "static",
+  "fix": null,
+  "verified": {
+    "vue": "3.6.0-rc.14",
+    "date": "2026-11-11"
+  },
+  "sources": ["https://nuxt.com/blog/v4-6"]
+}

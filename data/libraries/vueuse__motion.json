@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 0,
+  "package": "@vueuse/motion",
+  "repository": "https://github.com/vueuse/motion",
+  "verified": {
+    "version": "3.0.3",
+    "vue": "3.6.0-rc.14",
+    "date": "2026-11-10"
+  },
+  "declared": null,
+  "interop": {
+    "status": "unknown",
+    "evidence": []
+  },
+  "features": [
+    {
+      "id": "@vueuse/motion/v-motion",
+      "match": {
+        "kind": "directive",
+        "name": "motion",
+        "export": null,
+        "from": "@vueuse/motion"
+      },
+      "status": "broken",
+      "failure": "silent",
+      "message": "v-motion is an object directive. Vapor skips it, so the entered opacity is not applied",
+      "evidence": [
+        {
+          "level": "tested",
+          "depth": "D1",
+          "environment": "vite build, Chrome 156",
+          "probe": "repros/vueuse-motion-v-motion"
+        }
+      ],
+      "fixedIn": null
+    }
+  ]
+}

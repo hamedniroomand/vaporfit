@@ -1,0 +1,9 @@
+{
+  "name": "vaporfit-shadcn-fixture",
+  "private": true,
+  "description": "Small shadcn-vue style wrappers. vue 3.6.0-rc.14 and reka-ui 2.11.0 are pinned. The wrappers pass props through.",
+  "dependencies": {
+    "reka-ui": "2.11.0",
+    "vue": "3.6.0-rc.14"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 0,
+  "package": "@unhead/vue",
+  "repository": "https://github.com/unjs/unhead",
+  "verified": {
+    "version": "3.4.3",
+    "vue": "3.6.0-rc.14",
+    "date": "2026-11-10"
+  },
+  "declared": {
+    "scope": "partial",
+    "since": null,
+    "url": "https://github.com/unjs/unhead/blob/main/docs/0.vue/head/guides/1.core-concepts/6.vapor.md",
+    "quote": "Use the Vue composables inside Vapor component setup, with the same head instance installed on your app."
+  },
+  "interop": {
+    "status": "unknown",
+    "evidence": []
+  },
+  "features": []
+}

@@ -1,0 +1,39 @@
+name: Correct the row of my library
+description: Correct one library row in the vaporfit table.
+title: 'Correct the row of [package]'
+body:
+  - type: markdown
+    attributes:
+      value: |
+        One library is one JSON file in `data/libraries/`. Say what is true, and give a link.
+  - type: input
+    id: package
+    attributes:
+      label: Package
+      description: The npm package name.
+      placeholder: reka-ui
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: The library version this statement is about.
+      placeholder: 2.11.0
+    validations:
+      required: true
+  - type: textarea
+    id: statement
+    attributes:
+      label: Statement
+      description: What is true for this library in Vapor mode.
+    validations:
+      required: true
+  - type: input
+    id: link
+    attributes:
+      label: Link
+      description: A link to the maintainer statement, the issue, or the change.
+      placeholder: https://github.com/org/repo/issues/1
+    validations:
+      required: true

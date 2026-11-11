@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 0,
+  "package": "floating-vue",
+  "repository": "https://github.com/Akryum/floating-vue",
+  "verified": {
+    "version": "5.4.0",
+    "vue": "3.6.0-rc.14",
+    "date": "2026-11-10"
+  },
+  "declared": null,
+  "interop": {
+    "status": "unknown",
+    "evidence": []
+  },
+  "features": [
+    {
+      "id": "floating-vue/v-tooltip",
+      "match": {
+        "kind": "directive",
+        "name": "tooltip",
+        "export": "vTooltip",
+        "from": "floating-vue"
+      },
+      "status": "broken",
+      "failure": "silent",
+      "message": "v-tooltip is an object directive. Vapor skips it",
+      "evidence": [
+        {
+          "level": "tested",
+          "depth": "D1",
+          "environment": "vite build, Chrome 156",
+          "probe": "repros/floating-vue-v-tooltip"
+        }
+      ],
+      "fixedIn": null
+    }
+  ]
+}

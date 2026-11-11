@@ -1,0 +1,16 @@
+{
+  "name": "vaporfit-rules-fixture",
+  "private": true,
+  "dependencies": {
+    "@nuxt/ui": "4.12.0",
+    "@vueuse/components": "15.0.0",
+    "element-plus": "2.14.8",
+    "floating-vue": "5.4.0",
+    "not-in-data": "1.0.0",
+    "primevue": "5.0.4",
+    "reka-ui": "2.11.0"
+  },
+  "peerDependencies": {
+    "vue-i18n": "11.4.18"
+  }
+}

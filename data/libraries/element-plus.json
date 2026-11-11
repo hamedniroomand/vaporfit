@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 0,
+  "package": "element-plus",
+  "repository": "https://github.com/element-plus/element-plus",
+  "verified": {
+    "version": "2.14.8",
+    "vue": "3.6.0-rc.14",
+    "date": "2026-11-10"
+  },
+  "declared": null,
+  "interop": {
+    "status": "partial",
+    "evidence": [
+      {
+        "level": "tested",
+        "depth": "D1",
+        "environment": "vite build, Chrome 156",
+        "probe": "repros/element-plus-components",
+        "what": "ElButton click, ElInput v-model"
+      }
+    ]
+  },
+  "features": [
+    {
+      "id": "element-plus/v-loading",
+      "match": {
+        "kind": "directive",
+        "name": "loading",
+        "export": "vLoading",
+        "from": "element-plus"
+      },
+      "status": "broken",
+      "failure": "silent",
+      "message": "v-loading is an object directive. Vapor skips it",
+      "evidence": [
+        {
+          "level": "tested",
+          "depth": "D1",
+          "environment": "vite build, Chrome 156",
+          "probe": "repros/element-plus-v-loading"
+        }
+      ],
+      "fixedIn": null
+    }
+  ]
+}

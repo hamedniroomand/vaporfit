@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 0,
+  "package": "vue-i18n",
+  "repository": "https://github.com/intlify/vue-i18n",
+  "verified": {
+    "version": "11.4.18",
+    "vue": "3.6.0-rc.14",
+    "date": "2026-11-10"
+  },
+  "declared": {
+    "scope": "full",
+    "since": "11.2.0",
+    "url": "https://github.com/intlify/vue-i18n/releases/tag/v11.2.0",
+    "quote": "feat: compatible Vue3 vapor mode for v11"
+  },
+  "interop": {
+    "status": "partial",
+    "evidence": [
+      {
+        "level": "tested",
+        "depth": "D1",
+        "environment": "vite build, Chrome 156",
+        "probe": "repros/vue-i18n-use-i18n",
+        "what": "useI18n() and a locale change"
+      }
+    ]
+  },
+  "features": [
+    {
+      "id": "vue-i18n/v-t",
+      "match": {
+        "kind": "directive",
+        "name": "t",
+        "export": null,
+        "from": "vue-i18n"
+      },
+      "status": "broken",
+      "failure": "silent",
+      "message": "v-t is an object directive. Vapor skips it and the element stays empty",
+      "evidence": [
+        {
+          "level": "tested",
+          "depth": "D1",
+          "environment": "vite build, Chrome 156",
+          "probe": "repros/vue-i18n-v-t"
+        }
+      ],
+      "fixedIn": null
+    },
+    {
+      "id": "vue-i18n/global-properties",
+      "match": {
+        "kind": "globalProperty",
+        "names": ["$t", "$d", "$n", "$te", "$tm", "$rt", "$i18n"]
+      },
+      "status": "broken",
+      "failure": "runtime-error",
+      "message": "A global property of vue-i18n is not available in a Vapor template. Use useI18n()",
+      "evidence": [
+        {
+          "level": "tested",
+          "depth": "D1",
+          "environment": "vite build, Chrome 156",
+          "probe": "repros/vue-i18n-global-t",
+          "what": "$t('hello') throws"
+        }
+      ],
+      "fixedIn": null
+    }
+  ]
+}

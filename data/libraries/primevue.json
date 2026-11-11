@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 0,
+  "package": "primevue",
+  "repository": "https://github.com/primefaces/primevue",
+  "verified": {
+    "version": "5.0.4",
+    "vue": "3.6.0-rc.14",
+    "date": "2026-11-10"
+  },
+  "declared": null,
+  "interop": {
+    "status": "partial",
+    "evidence": [
+      {
+        "level": "tested",
+        "depth": "D1",
+        "environment": "vite build, Chrome 156",
+        "probe": "repros/primevue-button",
+        "what": "Button click"
+      }
+    ]
+  },
+  "features": [
+    {
+      "id": "primevue/v-tooltip",
+      "match": {
+        "kind": "directive",
+        "name": "tooltip",
+        "export": "default",
+        "from": "primevue/tooltip"
+      },
+      "status": "broken",
+      "failure": "silent",
+      "message": "v-tooltip is an object directive. Vapor skips it",
+      "evidence": [
+        {
+          "level": "tested",
+          "depth": "D1",
+          "environment": "vite build, Chrome 156",
+          "probe": "repros/primevue-v-tooltip"
+        }
+      ],
+      "fixedIn": null
+    }
+  ]
+}

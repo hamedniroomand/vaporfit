@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 0,
+  "package": "ant-design-vue",
+  "repository": "https://github.com/vueComponent/ant-design-vue",
+  "verified": {
+    "version": "4.2.6",
+    "vue": "3.6.0-rc.14",
+    "date": "2026-11-10"
+  },
+  "declared": null,
+  "interop": {
+    "status": "unknown",
+    "evidence": []
+  },
+  "features": []
+}

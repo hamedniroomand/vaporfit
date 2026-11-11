@@ -1,0 +1,13 @@
+{
+  "name": "vaporfit-coverage-fixture",
+  "private": true,
+  "dependencies": {
+    "absent": "1.0.0",
+    "element-plus": "2.14.8",
+    "plain-vue": "1.0.0",
+    "vue": "3.5.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "6.0.10"
+  }
+}

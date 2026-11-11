@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 0,
+  "id": "vapor/component-ref-instance",
+  "title": "A template ref to a Vapor component has no $el, $props, $attrs, $slots or $refs",
+  "tiers": ["interop", "pure"],
+  "failure": "runtime-error",
+  "detection": "static",
+  "fix": null,
+  "verified": {
+    "vue": "3.6.0-rc.14",
+    "date": "2026-11-10"
+  },
+  "sources": ["https://github.com/vuejs/core/releases/tag/v3.6.0-rc.1"]
+}

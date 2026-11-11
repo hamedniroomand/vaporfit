@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 0,
+  "id": "vapor/vnode-hook",
+  "title": "A @vue:xxx event on an element does not run in Vapor",
+  "tiers": ["interop", "pure"],
+  "failure": "silent",
+  "detection": "static",
+  "fix": null,
+  "verified": {
+    "vue": "3.6.0-rc.14",
+    "date": "2026-11-10"
+  },
+  "sources": [
+    "https://github.com/vuejs/core/releases/tag/v3.6.0-rc.1",
+    "https://github.com/vuejs/core/blob/v3.6.0-rc.14/packages/compiler-vapor/src/transforms/vOn.ts#L57"
+  ]
+}

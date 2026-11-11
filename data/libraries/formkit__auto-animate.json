@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 0,
+  "package": "@formkit/auto-animate",
+  "repository": "https://github.com/formkit/auto-animate",
+  "verified": {
+    "version": "0.10.2",
+    "vue": "3.6.0-rc.14",
+    "date": "2026-11-10"
+  },
+  "declared": null,
+  "interop": {
+    "status": "unknown",
+    "evidence": []
+  },
+  "features": [
+    {
+      "id": "@formkit/auto-animate/v-auto-animate",
+      "match": {
+        "kind": "directive",
+        "name": "auto-animate",
+        "export": "vAutoAnimate",
+        "from": "@formkit/auto-animate"
+      },
+      "status": "broken",
+      "failure": "silent",
+      "message": "v-auto-animate is an object directive. Vapor skips it",
+      "evidence": [
+        {
+          "level": "tested",
+          "depth": "D1",
+          "environment": "vite build, Chrome 156",
+          "probe": "repros/formkit-auto-animate"
+        }
+      ],
+      "fixedIn": null
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 0,
+  "package": "naive-ui",
+  "repository": "https://github.com/tusen-ai/naive-ui",
+  "verified": {
+    "version": "2.45.3",
+    "vue": "3.6.0-rc.14",
+    "date": "2026-11-10"
+  },
+  "declared": null,
+  "interop": {
+    "status": "works",
+    "evidence": [
+      {
+        "level": "tested",
+        "depth": "D1",
+        "environment": "vite build, Chrome 156",
+        "probe": "repros/naive-ui-button",
+        "what": "NButton click, NInput v-model:value"
+      }
+    ]
+  },
+  "features": []
+}

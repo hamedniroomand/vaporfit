@@ -1,0 +1,7 @@
+{
+  "name": "vaporfit-vite-8-3",
+  "private": true,
+  "devDependencies": {
+    "vite": "8.3.7"
+  }
+}

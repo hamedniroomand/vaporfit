@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 0,
+  "package": "@vue/test-utils",
+  "repository": "https://github.com/vuejs/test-utils",
+  "verified": {
+    "version": "2.5.1",
+    "vue": "3.6.0-rc.14",
+    "date": "2026-11-10"
+  },
+  "declared": null,
+  "interop": {
+    "status": "unknown",
+    "evidence": []
+  },
+  "features": []
+}

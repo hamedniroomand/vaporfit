@@ -1,0 +1,82 @@
+{
+  "name": "vaporfit",
+  "version": "0.0.0",
+  "description": "Before you add `vapor` to a Vue component, see what will silently break.",
+  "keywords": [
+    "vapor",
+    "vapor-mode",
+    "vue",
+    "vue-vapor"
+  ],
+  "license": "MIT",
+  "author": "Hamed Niroomand",
+  "bin": {
+    "vaporfit": "./dist/cli/main.mjs"
+  },
+  "files": [
+    "dist",
+    "data"
+  ],
+  "type": "module",
+  "types": "./dist/index.d.mts",
+  "imports": {
+    "#pkg": "./package.json",
+    "#test/*": "./test/*",
+    "#*": "./src/*"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
+    },
+    "./data/*": "./data/*",
+    "./devtools": {
+      "types": "./dist/devtools.d.mts",
+      "default": "./dist/devtools.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "vp pack && vp build --config ui/vite.config.ts",
+    "changeset": "changeset",
+    "changeset:version": "changeset version && vp fmt",
+    "ready": "vp check && vp test && vp run build",
+    "repros": "node repros/check.mjs",
+    "prepare": "vp config"
+  },
+  "dependencies": {
+    "@vue/compiler-core": "3.6.0-rc.14",
+    "@vue/compiler-sfc": "3.6.0-rc.14",
+    "@vue/compiler-vapor": "3.6.0-rc.14",
+    "@vue/shared": "3.6.0-rc.14",
+    "oxc-parser": "^0.158.0"
+  },
+  "devDependencies": {
+    "@changesets/changelog-github": "^1.0.1",
+    "@changesets/cli": "^3.0.3",
+    "@commitlint/cli": "^21.2.4",
+    "@commitlint/config-conventional": "^21.2.4",
+    "@devframes/agentic": "1.3.3",
+    "@types/node": "^22.20.4",
+    "@vitejs/devtools-kit": "0.8.2",
+    "@vitejs/plugin-vue": "6.0.10",
+    "devframe": "1.3.3",
+    "playwright-core": "^1.65.0",
+    "typescript": "^7.0.2",
+    "vite": "catalog:",
+    "vite-plus": "catalog:",
+    "vue": "^3.5.45"
+  },
+  "peerDependencies": {
+    "@vitejs/devtools-kit": "^0.8.0"
+  },
+  "peerDependenciesMeta": {
+    "@vitejs/devtools-kit": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "packageManager": "pnpm@12.18.0"
+}

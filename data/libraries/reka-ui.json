@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 0,
+  "package": "reka-ui",
+  "repository": "https://github.com/unovue/reka-ui",
+  "verified": {
+    "version": "2.11.0",
+    "vue": "3.6.0-rc.14",
+    "date": "2026-11-10"
+  },
+  "declared": null,
+  "interop": {
+    "status": "partial",
+    "evidence": [
+      {
+        "level": "tested",
+        "depth": "D1",
+        "environment": "vite build, Chrome 156",
+        "probe": "repros/reka-ui-dialog",
+        "what": "DialogRoot, DialogTrigger and DialogContent without as-child: a click opens the dialog"
+      }
+    ]
+  },
+  "features": [
+    {
+      "id": "reka-ui/as-child",
+      "match": {
+        "kind": "prop",
+        "name": "as-child",
+        "from": "reka-ui",
+        "components": [
+          "DialogTrigger",
+          "DropdownMenuTrigger",
+          "PopoverTrigger",
+          "TooltipTrigger",
+          "HoverCardTrigger",
+          "ContextMenuTrigger",
+          "AlertDialogTrigger",
+          "CollapsibleTrigger",
+          "DialogClose"
+        ]
+      },
+      "status": "broken",
+      "failure": "silent",
+      "message": "as-child does not pass attributes or listeners to the child in a Vapor component",
+      "evidence": [
+        {
+          "level": "tested",
+          "depth": "D1",
+          "environment": "vite build, Chrome 156",
+          "probe": "repros/reka-ui-as-child"
+        },
+        {
+          "level": "tested",
+          "depth": "D1",
+          "environment": "vite build, Chrome 156",
+          "probe": "repros/reka-ui-dropdown-menu-trigger",
+          "what": "DropdownMenuTrigger as-child"
+        },
+        {
+          "level": "tested",
+          "depth": "D1",
+          "environment": "vite build, Chrome 156",
+          "probe": "repros/reka-ui-popover-trigger",
+          "what": "PopoverTrigger as-child"
+        },
+        {
+          "level": "tested",
+          "depth": "D1",
+          "environment": "vite build, Chrome 156",
+          "probe": "repros/reka-ui-tooltip-trigger",
+          "what": "TooltipTrigger as-child"
+        },
+        {
+          "level": "tested",
+          "depth": "D1",
+          "environment": "vite build, Chrome 156",
+          "probe": "repros/reka-ui-hover-card-trigger",
+          "what": "HoverCardTrigger as-child"
+        },
+        {
+          "level": "tested",
+          "depth": "D1",
+          "environment": "vite build, Chrome 156",
+          "probe": "repros/reka-ui-context-menu-trigger",
+          "what": "ContextMenuTrigger as-child"
+        },
+        {
+          "level": "tested",
+          "depth": "D1",
+          "environment": "vite build, Chrome 156",
+          "probe": "repros/reka-ui-alert-dialog-trigger",
+          "what": "AlertDialogTrigger as-child"
+        },
+        {
+          "level": "tested",
+          "depth": "D1",
+          "environment": "vite build, Chrome 156",
+          "probe": "repros/reka-ui-collapsible-trigger",
+          "what": "CollapsibleTrigger as-child"
+        },
+        {
+          "level": "tested",
+          "depth": "D1",
+          "environment": "vite build, Chrome 156",
+          "probe": "repros/reka-ui-dialog-close",
+          "what": "DialogClose as-child"
+        },
+        {
+          "level": "issue",
+          "url": "https://github.com/unovue/shadcn-vue/issues/2006",
+          "state": "open"
+        },
+        {
+          "level": "issue",
+          "url": "https://github.com/nuxt/ui/issues/6395",
+          "state": "open"
+        }
+      ],
+      "fixedIn": null
+    },
+    {
+      "id": "reka-ui/as-child-other",
+      "match": {
+        "kind": "prop",
+        "name": "as-child",
+        "from": "reka-ui"
+      },
+      "status": "unknown",
+      "failure": "silent",
+      "message": "as-child is confirmed broken on DialogTrigger. This component is not tested and the cause is probably the same",
+      "evidence": [
+        {
+          "level": "issue",
+          "url": "https://github.com/nuxt/ui/issues/6395",
+          "state": "open"
+        }
+      ],
+      "fixedIn": null
+    },
+    {
+      "id": "reka-ui/forward-props",
+      "match": {
+        "kind": "import",
+        "names": ["useForwardProps", "useForwardPropsEmits", "useForwardExpose"],
+        "from": "reka-ui"
+      },
+      "status": "unknown",
+      "failure": "runtime-error",
+      "message": "One user report says that the forwarding helpers fail in a Vapor component because they call getCurrentInstance(). Not tested",
+      "evidence": [
+        {
+          "level": "issue",
+          "url": "https://github.com/unovue/shadcn-vue/issues/2006",
+          "state": "open"
+        }
+      ],
+      "fixedIn": null
+    }
+  ]
+}

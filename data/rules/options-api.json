@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 0,
+  "id": "vapor/options-api",
+  "title": "A component with a normal <script> and no <script setup> cannot be a Vapor component",
+  "tiers": ["interop", "pure"],
+  "failure": "compile",
+  "detection": "static",
+  "fix": null,
+  "verified": {
+    "vue": "3.6.0-rc.14",
+    "date": "2026-11-10"
+  },
+  "sources": [
+    "https://github.com/vuejs/core/releases/tag/v3.6.0-rc.1",
+    "https://github.com/vuejs/core/blob/v3.6.0-rc.14/packages/compiler-sfc/src/compileScript.ts#L212"
+  ]
+}

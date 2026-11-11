@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 0,
+  "package": "@headlessui/vue",
+  "repository": "https://github.com/tailwindlabs/headlessui",
+  "verified": {
+    "version": "1.7.23",
+    "vue": "3.6.0-rc.14",
+    "date": "2026-11-10"
+  },
+  "declared": null,
+  "interop": {
+    "status": "unknown",
+    "evidence": []
+  },
+  "features": []
+}

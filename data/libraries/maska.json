@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 0,
+  "package": "maska",
+  "repository": "https://github.com/beholdr/maska",
+  "verified": {
+    "version": "3.2.2",
+    "vue": "3.6.0-rc.14",
+    "date": "2026-11-10"
+  },
+  "declared": null,
+  "interop": {
+    "status": "unknown",
+    "evidence": []
+  },
+  "features": [
+    {
+      "id": "maska/v-maska",
+      "match": {
+        "kind": "directive",
+        "name": "maska",
+        "export": "vMaska",
+        "from": "maska/vue"
+      },
+      "status": "broken",
+      "failure": "runtime-error",
+      "message": "v-maska does not mask input in a Vapor component. A value binding stays unmasked, and data-maska throws reading binding.value",
+      "evidence": [
+        {
+          "level": "tested",
+          "depth": "D1",
+          "environment": "vite build, Chrome 156",
+          "probe": "repros/maska-v-maska",
+          "what": "v-maska=\"'#-#'\" stays 12, data-maska throws"
+        }
+      ],
+      "fixedIn": null
+    }
+  ]
+}
