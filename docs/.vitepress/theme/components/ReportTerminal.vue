@@ -2,7 +2,7 @@
   // A part of the report of `test/fixtures/shadcn`. The lines are the lines that vaporfit printed.
   import { ref } from 'vue';
 
-  import { useReveal } from '../utils/reveal';
+  import { useReveal } from '../reveal';
 
   const LINES = [
     'vaporfit 0.0.0',

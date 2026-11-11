@@ -1,7 +1,4 @@
 # The docs site has its own dependencies. The root workspace replaces vite with Vite+,
-# and undocs needs the vite package itself.
+# and VitePress needs the vite package itself.
 packages:
   - .
-
-allowBuilds:
-  '@parcel/watcher': false

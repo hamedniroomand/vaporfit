@@ -1,5 +1,4 @@
 ---
-icon: i-lucide-bug
 description: Reports for the trackers of Vue libraries. Each report shows one feature that stops in a Vapor component, with the versions, the probe and the cause.
 ---
 

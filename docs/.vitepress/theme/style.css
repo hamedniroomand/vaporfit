@@ -1,0 +1,464 @@
+@import '@fontsource-variable/fraunces/full.css';
+@import '@fontsource-variable/geist';
+@import '@fontsource-variable/geist-mono';
+@import 'tailwindcss/theme.css';
+@import 'tailwindcss/utilities.css';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-card: var(--card);
+  --color-accent: var(--accent);
+  --color-ring: var(--ring);
+  --color-brand: var(--brand);
+  --color-success: var(--success);
+  --color-success-tint: var(--success-tint);
+  --color-success-border: var(--success-border);
+  --color-warning: var(--warning);
+  --color-warning-tint: var(--warning-tint);
+  --color-warning-border: var(--warning-border);
+  --color-danger: var(--danger);
+  --shadow-small: 0 1px 2px rgb(0 0 0 / 0.06);
+  --shadow-menu:
+    0 1px 1px rgb(0 0 0 / 0.02), 0 4px 8px -4px rgb(0 0 0 / 0.04),
+    0 16px 24px -8px rgb(0 0 0 / 0.06);
+  --font-sans: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+:root {
+  --vf-display: 'Fraunces Variable', ui-serif, Georgia, serif;
+  --vf-ease: cubic-bezier(0.2, 0.7, 0.1, 1);
+
+  --background: #fff;
+  --foreground: #1a1330;
+  --muted: #f2f1f7;
+  --muted-foreground: #565170;
+  --border: rgb(26 19 48 / 0.11);
+  --card: #faf9fd;
+  --accent: #eae8f2;
+  --ring: #0072f5;
+  --brand: oklch(51.4% 0.128 54.3);
+  --success: #297a3a;
+  --success-tint: #effbef;
+  --success-border: #c6f1c7;
+  --warning: #a35200;
+  --warning-tint: #fff6e0;
+  --warning-border: #f5d99a;
+  --danger: #cb2a2f;
+  --danger-tint: #fdeeee;
+  --danger-border: #f6c9cb;
+}
+
+.dark {
+  --background: #0b0d24;
+  --foreground: #eeedf7;
+  --muted: #1b1e42;
+  --muted-foreground: #a9abc9;
+  --border: rgb(186 192 255 / 0.15);
+  --card: #131636;
+  --accent: #262a55;
+  --ring: #52a8ff;
+  --brand: oklch(79.9% 0.17 73.2);
+  --success: #62c073;
+  --success-tint: #0b2212;
+  --success-border: #0c451b;
+  --warning: #f2a20d;
+  --warning-tint: #2a1a00;
+  --warning-border: #5c3b00;
+  --danger: #ff6166;
+  --danger-tint: #2d0f14;
+  --danger-border: #5c1a22;
+}
+
+/* The VitePress theme reads the same colors as the landing page. */
+:root,
+.dark {
+  --vp-c-bg: var(--background);
+  --vp-c-bg-alt: var(--card);
+  --vp-c-bg-elv: var(--card);
+  --vp-c-bg-soft: var(--muted);
+  --vp-c-text-1: var(--foreground);
+  --vp-c-text-2: var(--muted-foreground);
+  --vp-c-divider: var(--border);
+  --vp-c-gutter: var(--border);
+  --vp-c-border: var(--border);
+  --vp-c-brand-1: var(--brand);
+  --vp-c-brand-2: color-mix(in oklab, var(--brand) 85%, var(--foreground));
+  --vp-c-brand-3: var(--brand);
+  --vp-c-brand-soft: color-mix(in oklab, var(--brand) 14%, transparent);
+  --vp-button-brand-bg: var(--foreground);
+  --vp-button-brand-text: var(--background);
+  --vp-sidebar-bg-color: var(--background);
+  --vp-nav-bg-color: var(--background);
+  --vp-code-block-bg: var(--card);
+  --vp-code-color: var(--foreground);
+  --vp-code-bg: var(--muted);
+  --vp-font-family-base: var(--font-sans);
+  --vp-font-family-mono: var(--font-mono);
+}
+
+.vp-doc h1,
+.vp-doc h2,
+.landing h1,
+.landing h2,
+.vf-display {
+  font-family: var(--vf-display);
+  font-variation-settings:
+    'SOFT' 70,
+    'WONK' 0;
+  letter-spacing: -0.015em;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--brand) 35%, transparent);
+}
+
+/* The header of the landing page is on the dark sky of the hero, in the light theme too. */
+html[data-vf-hero] .VPNav {
+  --vp-c-text-1: #fafafa;
+  --vp-c-text-2: rgb(255 255 255 / 0.78);
+  --vp-c-text-3: rgb(255 255 255 / 0.6);
+  --vp-c-brand-1: #fff;
+  --vp-c-divider: transparent;
+  --vp-c-gutter: transparent;
+  --vp-c-bg-alt: rgb(255 255 255 / 0.12);
+  --vp-nav-bg-color: transparent;
+}
+
+html[data-vf-hero] .VPNavBar,
+html[data-vf-hero] .VPNavBar .content-body {
+  background: transparent !important;
+  backdrop-filter: none;
+}
+
+html[data-vf-hero] .VPNavBarHamburger .container > span {
+  background-color: #fff;
+}
+
+html[data-vf-hero] .VPNavBarSearchButton {
+  color: #fff;
+}
+
+/* The header of a docs page is a part of the sky of the landing page. */
+.vp-doc .vf-sky {
+  position: relative;
+  isolation: isolate;
+  padding: 3.5rem 2rem 2.25rem;
+  margin: 0 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: #fff;
+  background: linear-gradient(
+    168deg,
+    #0d1030 0%,
+    #272450 38%,
+    #5f3a6c 66%,
+    #a8506a 86%,
+    #ea8a4c 100%
+  );
+  border-radius: 1rem;
+}
+
+/* The stars, then two layers of vapor that move to the left. Each layer has its pattern two times. */
+.vp-doc .vf-sky::before,
+.vp-doc .vf-sky::after {
+  position: absolute;
+  inset: 0 auto 0 0;
+  z-index: -1;
+  width: 200%;
+  content: '';
+  background-repeat: repeat-x;
+  background-size: 50% 100%;
+}
+
+.vp-doc .vf-sky::before {
+  background-image:
+    radial-gradient(1.2px 1.2px at 12% 22%, #fff, transparent),
+    radial-gradient(1px 1px at 41% 14%, rgb(255 255 255 / 0.8), transparent),
+    radial-gradient(1.3px 1.3px at 68% 30%, #fff, transparent),
+    radial-gradient(1px 1px at 91% 18%, rgb(255 255 255 / 0.7), transparent),
+    radial-gradient(ellipse 30% 22% at 80% 12%, rgb(120 130 255 / 0.28), transparent 70%);
+}
+
+.vp-doc .vf-sky::after {
+  background-image:
+    radial-gradient(ellipse 34% 26% at 22% 104%, rgb(255 246 232 / 0.5), transparent 70%),
+    radial-gradient(ellipse 26% 22% at 70% 108%, rgb(255 226 190 / 0.55), transparent 70%),
+    radial-gradient(ellipse 20% 30% at 46% 96%, rgb(255 255 255 / 0.22), transparent 70%);
+  filter: blur(14px);
+  animation: vf-drift 48s linear infinite;
+}
+
+@keyframes vf-drift {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.vp-doc .vf-sky h1 {
+  max-width: 22ch;
+  font-size: clamp(2.125rem, 4.6vw, 3.25rem);
+  font-weight: 500;
+  font-variation-settings:
+    'SOFT' 100,
+    'WONK' 0;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: #fff;
+  text-shadow: 0 0 40px rgb(255 220 170 / 0.3);
+  text-wrap: balance;
+}
+
+.vp-doc .vf-sky h1 code {
+  padding: 0.05em 0.3em;
+  font-size: 0.78em;
+  color: inherit;
+  background: rgb(255 255 255 / 0.12);
+  border: 0;
+}
+
+/* The copy button comes after the lead text. It is glass, as the buttons on the landing page. */
+.vp-doc .vf-sky .markdown-copy-buttons {
+  order: 1;
+  margin: 1.5rem 0 0;
+}
+
+.vp-doc .vf-sky .dropdown-trigger {
+  color: #fff;
+  background: rgb(255 255 255 / 0.14);
+  border-color: rgb(255 255 255 / 0.34);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+
+.vp-doc .vf-sky .dropdown-trigger button {
+  color: #fff;
+}
+
+.vp-doc .vf-sky .dropdown-trigger .divider {
+  background: rgb(255 255 255 / 0.34);
+}
+
+.vp-doc .vf-sky .header-anchor {
+  display: none;
+}
+
+.vp-doc .vf-sky .vf-lead {
+  max-width: 34rem;
+  margin: 1rem 0 0;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: rgb(255 255 255 / 0.88);
+  text-shadow: 0 1px 12px rgb(13 16 48 / 0.45);
+}
+
+.vp-doc h2 {
+  padding-top: 0;
+  margin-top: 3.25rem;
+  font-size: 1.75rem;
+  font-weight: 500;
+  border-top: 0;
+}
+
+.vp-doc h3 {
+  font-weight: 600;
+}
+
+.vp-doc p,
+.vp-doc li {
+  max-width: 68ch;
+}
+
+.vp-doc :not(pre) > code {
+  border: 1px solid var(--border);
+}
+
+/* A code block has the frame of the report on the landing page. */
+.vp-doc div[class*='language-'] {
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+}
+
+.vp-doc .vf-verdict {
+  padding-inline: 0.5em;
+  font-weight: 500;
+  border-radius: 999px;
+}
+
+.vp-doc .vf-ready {
+  color: var(--success);
+  background: var(--success-tint);
+  border-color: var(--success-border);
+}
+
+.vp-doc .vf-blocked {
+  color: var(--danger);
+  background: var(--danger-tint);
+  border-color: var(--danger-border);
+}
+
+.vp-doc .vf-unknown {
+  color: var(--warning);
+  background: var(--warning-tint);
+  border-color: var(--warning-border);
+}
+
+.vp-doc table {
+  font-size: 0.875rem;
+}
+
+.vp-doc tr,
+.vp-doc tr:nth-child(2n) {
+  background: transparent;
+  border-top: 0;
+}
+
+.vp-doc th,
+.vp-doc td {
+  border: 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.vp-doc th {
+  font-weight: 600;
+  color: var(--muted-foreground);
+  text-align: left;
+  background: transparent;
+}
+
+/* The sidebar: a serif title for each group, and the mark of the logo at the open page. */
+.VPSidebar .VPSidebarItem.level-0 > .item .text {
+  font-family: var(--vf-display);
+  font-size: 1.0625rem;
+  font-weight: 500;
+  font-variation-settings:
+    'SOFT' 70,
+    'WONK' 0;
+}
+
+.VPSidebar .VPSidebarItem.is-active > .item .link > .text {
+  font-weight: 500;
+}
+
+.VPSidebar .VPSidebarItem.level-1.is-active > .item::before {
+  position: absolute;
+  top: 50%;
+  left: -0.875rem;
+  width: 0.375rem;
+  height: 0.375rem;
+  content: '';
+  background: var(--brand);
+  border-radius: 50%;
+  box-shadow:
+    0.3rem -0.45rem 0 -0.06rem color-mix(in oklab, var(--brand) 55%, transparent),
+    0.5rem -0.85rem 0 -0.11rem color-mix(in oklab, var(--brand) 30%, transparent);
+  transform: translateY(-50%);
+}
+
+.VPSidebar .VPSidebarItem.level-1 > .item {
+  position: relative;
+}
+
+/* The links to the previous page and the next page are rows, as on the landing page. */
+.VPDocFooter .pager-link {
+  padding: 1.1rem 0.25rem;
+  border: 0;
+  border-top: 1px solid var(--border);
+  border-radius: 0;
+  transition: padding 0.3s var(--vf-ease);
+}
+
+.VPDocFooter .pager-link:hover {
+  padding-inline: 0.75rem;
+}
+
+.VPDocFooter .pager-link .title {
+  font-family: var(--vf-display);
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.VPDocFooter .pager-link:hover .title {
+  color: var(--brand);
+}
+
+.VPDocFooter .prev-next {
+  border-top: 0;
+}
+
+@media (max-width: 47.99rem) {
+  .vp-doc .vf-sky {
+    padding: 2.5rem 1.5rem 1.75rem;
+    margin: -2rem -1.5rem 1.5rem;
+    border-radius: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vp-doc .vf-sky::after {
+    animation: none;
+  }
+
+  .VPDocFooter .pager-link {
+    transition: none;
+  }
+}
+
+.VPSidebar {
+  border-right: 1px solid var(--border);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* A block with `data-reveal` shows its `.vf-r` children one after the other. `--i` sets the order. */
+[data-reveal='out'] .vf-r {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+[data-reveal='in'] .vf-r {
+  animation: vf-rise 0.8s var(--vf-ease) both;
+  animation-delay: calc(var(--i, 0) * 90ms);
+}
+
+@keyframes vf-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}
+
+/* The line at the top of a docs page that shows how far the reader is. */
+.vf-progress {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 60;
+  height: 2px;
+  background: var(--brand);
+  transform: scaleX(var(--vf-progress, 0));
+  transform-origin: left;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] .vf-r {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

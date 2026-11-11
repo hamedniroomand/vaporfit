@@ -72,7 +72,7 @@ export default defineConfig({
       'test/fixtures',
       'ui',
       'ui/vite.config.ts',
-      'docs/.docs',
+      'docs/.vitepress',
     ],
     categories: {
       correctness: 'error',
@@ -116,13 +116,12 @@ export default defineConfig({
     cache: true,
     tasks: {
       'docs:install': { command: 'vp -C docs install', cache: false },
-      'docs:dev': { command: 'vpx scripts/docs-dev.ts', cache: false },
+      'docs:dev': {
+        command: ['vpx scripts/docs-data.ts', 'vp -C docs exec vitepress dev'],
+        cache: false,
+      },
       'docs:build': {
-        command: [
-          'vpx scripts/docs-data.ts',
-          'vp -C docs exec undocs build',
-          'vpx scripts/docs-sitemap.ts',
-        ],
+        command: ['vpx scripts/docs-data.ts', 'vp -C docs exec vitepress build'],
         cache: false,
       },
     },

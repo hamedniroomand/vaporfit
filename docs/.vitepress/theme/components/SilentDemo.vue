@@ -2,7 +2,7 @@
   // Two buttons that show the result of the probe `repros/reka-ui-as-child`.
   import { ref, watch } from 'vue';
 
-  import { useReveal } from '../utils/reveal';
+  import { useReveal } from '../reveal';
 
   // The attribute that the Vapor button does not get.
   const ATTRIBUTE = ' aria-haspopup="dialog"';

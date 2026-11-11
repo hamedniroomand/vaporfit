@@ -2,7 +2,7 @@ name: Docs
 
 # Builds the docs site and deploys it to GitHub Pages on each push to main.
 # The repository must use "GitHub Actions" as the Pages source (Settings → Pages).
-# The site is built for the root of its domain (`url` in docs/.config/docs.yaml), so the
+# The site is built for the root of its domain (`SITE` in docs/.vitepress/config.ts), so the
 # custom domain must be set in the Pages settings.
 
 on:
@@ -32,7 +32,7 @@ jobs:
         run: vp run docs:build
       - uses: actions/upload-pages-artifact@v4
         with:
-          path: docs/.output/public
+          path: docs/.vitepress/dist
 
   deploy:
     needs: build
