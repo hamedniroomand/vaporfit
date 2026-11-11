@@ -1,6 +1,6 @@
 # vaporfit
 
-Before you add `vapor` to a Vue component, see what will silently break.
+**Find what Vapor mode breaks in your app, before you add `vapor`.**
 
 <p>
   <a href="https://github.com/hamedniroomand/vaporfit/actions/workflows/ci.yml"><img src="https://github.com/hamedniroomand/vaporfit/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
@@ -8,19 +8,40 @@ Before you add `vapor` to a Vue component, see what will silently break.
   <a href="https://vaporfit.kitdev.space/"><img src="https://img.shields.io/badge/docs-vaporfit-f5a623" alt="Documentation"></a>
 </p>
 
-Vue 3.6 can compile a component that has `<script setup vapor>` and print nothing when a feature is skipped. The build passes. At run time, a directive does not run, or a listener is not on the element.
+Vue 3.6 brings **Vapor mode**. Add one attribute, `<script setup vapor>`, and the component compiles to code that updates the DOM directly, with no virtual DOM. The goal is faster updates and a smaller bundle.
 
-vaporfit reads the project files and reports the problems it knows about. You get the report before you change a component.
+But not every feature and not every library works in a Vapor component yet. And the worst failures make no sound. The build passes. The console is empty. A button stops opening its dialog, and you find out in production.
+
+vaporfit reads your project and tells you which components are safe to convert, which are not, and why. You get the answer before you change a line.
 
 ```sh
 npx vaporfit
 ```
 
-vaporfit needs Node.js 22.18 or later. The data is for Vue 3.6.0-rc.14.
-
 <p align="center">
   <img src="https://raw.githubusercontent.com/hamedniroomand/vaporfit/main/docs/public/demo.gif" width="640" alt="vaporfit on a project that uses Reka UI: the report shows each finding with the file, the line, the rule and the chain of components. Then vaporfit fix lists the components that are ready.">
 </p>
+
+vaporfit needs Node.js 22.18 or later. The data is for Vue 3.6.0-rc.14. Read the full docs at <https://vaporfit.kitdev.space>.
+
+## Why vaporfit
+
+- **It finds the failures that give no error.** With `as-child` from Reka UI, a Vapor button gets no attributes and no click listener. Vue prints no warning. vaporfit shows the file, the line and the rule.
+- **It knows your libraries.** The data has 25 Vue libraries: Reka UI, Element Plus, PrimeVue, Vuetify, Pinia, vue-i18n, VueUse and more. Each row has the verified version, the statement of the maintainers and the known broken features.
+- **Each claim has evidence.** A row gets its data from a probe that runs in a real browser, a maintainer text, or an issue link. The repository has 35 probes.
+- **It follows the chain.** A cause that is two wrappers away from your page shows at your page, with the path to the library.
+- **It plans the migration.** The report ranks the rules that hold back the most components and gives an order: convert the leaves first.
+- **It makes the safe changes for you.** `vaporfit fix --write` adds `vapor` to each component that is ready.
+- **It does not guess.** When the data does not prove a problem, the verdict is `unknown`, not `ready`.
+
+## Vapor mode in one minute
+
+A normal Vue component renders through the virtual DOM (VDOM). A Vapor component does not. You can use Vapor in two ways, and vaporfit gives a verdict for each:
+
+- **Interop:** your app keeps `createApp()` and installs `vaporInteropPlugin`. Vapor components and VDOM components work together. This is the way to migrate one component at a time.
+- **Pure:** your app uses `createVaporApp()` and does not load the VDOM runtime. Each component in the tree must be Vapor.
+
+The [Vue 3.6 release notes](https://github.com/vuejs/core/releases/tag/v3.6.0-rc.14) describe Vapor mode.
 
 ## One finding
 
@@ -120,7 +141,7 @@ A blocked component that does not have `vapor` does not fail the run. The report
 
 To correct a row, change the library file in `data/libraries` and put the evidence in the same change. The evidence is a probe in `repros/`, a maintainer text with a link, or an issue link. Refer to [CONTRIBUTING.md](CONTRIBUTING.md).
 
-The planned address of the site is <https://vaporfit.kitdev.space>. The site is not hosted yet.
+The docs site has the same tables: <https://vaporfit.kitdev.space>.
 
 ## Limits
 
