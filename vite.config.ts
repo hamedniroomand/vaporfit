@@ -128,6 +128,7 @@ export default defineConfig({
   },
   test: {
     include: ['test/**/*.test.ts'],
+    isolate: false,
     coverage: {
       reporter: ['text', 'lcov'],
       // A little below the measured values. A change that removes tests fails the run.
