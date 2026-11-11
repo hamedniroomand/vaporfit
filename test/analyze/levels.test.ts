@@ -5,6 +5,7 @@ import { describe, expect, it } from 'vite-plus/test';
 
 import { analyze, getComponent, listComponents } from '#index.ts';
 import type { Report } from '#index.ts';
+import manifest from '#pkg' with { type: 'json' };
 
 import { described, must, textAt } from './assert.ts';
 
@@ -18,7 +19,7 @@ describe('level table', () => {
   const report = rulesReport();
 
   it('sorts components and records the tool version', () => {
-    expect(report.tool).toEqual({ data: '2026-11-10', version: '0.0.0' });
+    expect(report.tool).toEqual({ data: '2026-11-10', version: manifest.version });
     const ids = report.components.map(item => item.id);
     expect(ids).toEqual([...ids].toSorted());
   });

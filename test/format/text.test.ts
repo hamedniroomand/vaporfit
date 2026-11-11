@@ -5,6 +5,7 @@ import path from 'node:path';
 import { describe, expect, it, vi } from 'vite-plus/test';
 
 import { run } from '#cli/run.ts';
+import manifest from '#pkg' with { type: 'json' };
 import { captureIo } from '#test/capture.ts';
 
 const readySentence =
@@ -16,7 +17,7 @@ describe('text report header', () => {
     expect(run([], note)).toBe(0);
     const text = note.output();
     const pluginAt = text.indexOf('The app entry does not have vaporInteropPlugin.');
-    const headerAt = text.indexOf('vaporfit 0.0.0');
+    const headerAt = text.indexOf(`vaporfit ${manifest.version}`);
     expect(pluginAt).toBeGreaterThanOrEqual(0);
     expect(headerAt).toBeGreaterThan(pluginAt);
     expect(text).toContain('vue 3.5.45\ncompiler 3.6.0-rc.14 from vaporfit\n');
@@ -102,7 +103,7 @@ describe('shadcn text report', () => {
     expect(text).toContain('Vue libraries with data: 1');
     expect(text).toContain('src/pages/Home.vue');
     expect(text.indexOf('The tool cannot tell if the app has vaporInteropPlugin.')).toBeLessThan(
-      text.indexOf('vaporfit 0.0.0'),
+      text.indexOf(`vaporfit ${manifest.version}`),
     );
   });
 });
