@@ -1,6 +1,7 @@
 import { spawn } from 'node:child_process'
 import { createServer } from 'node:http'
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
+import { availableParallelism } from 'node:os'
 import { extname, join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { chromium } from 'playwright-core'
@@ -10,6 +11,8 @@ import { chromium } from 'playwright-core'
 // VDOM result are different. "works" passes when they are equal.
 
 const root = join(import.meta.dirname)
+// The number of probes that are open in Chrome at the same time.
+const PAGES = 6
 const types = {
   '.html': 'text/html',
   '.js': 'text/javascript',
@@ -75,7 +78,7 @@ if (names !== null && names.length === 0) {
   console.error('no probe folders')
   process.exitCode = 1
 } else if (names !== null) {
-  await pool(names, 3, async name => {
+  await pool(names, availableParallelism(), async name => {
     const cwd = join(root, name)
     await run('vp', ['install', '--frozen-lockfile'], cwd)
     await run('vp', ['run', 'build'], cwd)
@@ -97,8 +100,10 @@ if (names !== null && names.length === 0) {
   const port = server.address().port
   const browser = await chromium.launch({ channel: 'chrome', headless: true })
   let failed = false
+  const reports = new Map()
 
-  for (const name of names) {
+  // Each probe has its own page, so the probes do not wait for each other.
+  await pool(names, PAGES, async name => {
     const probe = await import(pathToFileURL(join(root, name, 'probe.mjs')).href)
     const page = await browser.newPage()
     page.setDefaultTimeout(8000)
@@ -122,15 +127,17 @@ if (names !== null && names.length === 0) {
         : probe.expected === 'works'
           ? '  <-- different, expected the same result'
           : '  <-- equal, expected a break'
-      console.log(
+      reports.set(
+        name,
         `${name}${mark}\n  expected: ${probe.expected}\n  vdom : ${JSON.stringify(vdom)}\n  vapor: ${JSON.stringify(vapor)}\n  console: ${logs.length ? logs.join(' | ') : '(empty)'}`,
       )
     } catch (error) {
       failed = true
-      console.log(`${name}  <-- error\n  ${error.message}\n  console: ${logs.length ? logs.join(' | ') : '(empty)'}`)
+      reports.set(name, `${name}  <-- error\n  ${error.message}\n  console: ${logs.length ? logs.join(' | ') : '(empty)'}`)
     }
     await page.close()
-  }
+  })
+  for (const name of names) console.log(reports.get(name))
 
   console.log(`browser: ${browser.version()}`)
   await browser.close()
