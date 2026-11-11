@@ -17,7 +17,7 @@ Point the `tested` evidence `probe` field at the folder, for example `repros/my-
 `vp run repros` installs each probe, builds it, and opens the build in Chrome. Pass folder names to run only those probes:
 
 ```sh
-node repros/check.mjs my-library-case
+vpx ./repros/check.mjs my-library-case
 ```
 
 ## Source layout

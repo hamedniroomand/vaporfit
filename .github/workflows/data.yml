@@ -44,7 +44,7 @@ jobs:
               echo "The changed libraries have no probe." | tee "$RUNNER_TEMP/probes.txt"
             else
               mapfile -t args < "$RUNNER_TEMP/names.txt"
-              node repros/check.mjs "${args[@]}" | tee "$RUNNER_TEMP/probes.txt"
+              vpx ./repros/check.mjs "${args[@]}" | tee "$RUNNER_TEMP/probes.txt"
             fi
           fi
       - name: Add the result to the pull request

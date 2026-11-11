@@ -29,4 +29,4 @@ jobs:
           node-version-file: .node-version
           cache: true
       - run: vp run build
-      - run: npx --yes pkg-pr-new@0.0.88 publish --compact --pnpm
+      - run: vp dlx pkg-pr-new@0.0.88 publish --compact --pnpm

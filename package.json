@@ -47,7 +47,7 @@
     "changeset": "changeset",
     "changeset:version": "changeset version && vp fmt",
     "ready": "vp check && vp test && vp run build",
-    "repros": "node repros/check.mjs",
+    "repros": "vpx ./repros/check.mjs",
     "prepare": "vp config"
   },
   "dependencies": {

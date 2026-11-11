@@ -41,5 +41,5 @@ jobs:
           fail_ci_if_error: false
       - name: Check the package (publint, are-the-types-wrong)
         run: |
-          npx --yes publint --pack npm --strict .
-          npx --yes @arethetypeswrong/cli --pack . --profile esm-only
+          vp dlx publint --pack npm --strict .
+          vp dlx @arethetypeswrong/cli --pack . --profile esm-only
