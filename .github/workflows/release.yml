@@ -38,14 +38,14 @@ jobs:
           cache: true
       - name: Check the tag matches the package version
         run: |
-          version=$(node -p "require('./package.json').version")
+          version=$(vp node -p "require('./package.json').version")
           if [ "v$version" != "$GITHUB_REF_NAME" ]; then
             echo "::error::Tag $GITHUB_REF_NAME does not match package version $version"
             exit 1
           fi
       - run: vp run ready
       - name: Check npm
-        run: node -e "const [a, b, c] = process.argv[1].split('.').map(Number); if (a < 11 || (a === 11 && (b < 5 || (b === 5 && c < 1)))) { console.error('npm ' + process.argv[1] + ' is older than 11.5.1'); process.exit(1); }" "$(npm --version)"
+        run: vp node -e "const [a, b, c] = process.argv[1].split('.').map(Number); if (a < 11 || (a === 11 && (b < 5 || (b === 5 && c < 1)))) { console.error('npm ' + process.argv[1] + ' is older than 11.5.1'); process.exit(1); }" "$(npm --version)"
       - name: Pack
         run: vp pm pack --pack-destination "$RUNNER_TEMP/package"
       - name: Publish
