@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://vaporfit.kitdev.space/
+    about: The guide, the library table, the rules and the upstream reports.
+  - name: Report a security issue
+    url: https://github.com/hamedniroomand/vaporfit/security/advisories/new
+    about: Please report vulnerabilities privately, not in a public issue.

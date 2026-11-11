@@ -115,18 +115,23 @@ export default defineConfig({
   run: {
     cache: true,
     tasks: {
-      'docs:install': { command: 'vp -C docs install', cache: false },
       'docs:dev': {
-        command: ['vpx scripts/docs-data.ts', 'vp -C docs exec vitepress dev'],
+        command: ['vpx scripts/docs-data.ts', 'vp run vaporfit-docs#dev'],
         cache: false,
       },
+      'docs:preview': { command: 'vp run vaporfit-docs#preview', cache: false },
       'docs:build': {
-        command: ['vpx scripts/docs-data.ts', 'vp -C docs exec vitepress build'],
+        command: ['vpx scripts/docs-data.ts', 'vp run vaporfit-docs#build'],
         cache: false,
       },
     },
   },
   test: {
     include: ['test/**/*.test.ts'],
+    coverage: {
+      reporter: ['text', 'lcov'],
+      // A little below the measured values. A change that removes tests fails the run.
+      thresholds: { statements: 86, branches: 75, functions: 93, lines: 90 },
+    },
   },
 });
