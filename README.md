@@ -2,6 +2,12 @@
 
 Before you add `vapor` to a Vue component, see what will silently break.
 
+<p>
+  <a href="https://github.com/hamedniroomand/vaporfit/actions/workflows/ci.yml"><img src="https://github.com/hamedniroomand/vaporfit/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/hamedniroomand/vaporfit/blob/main/LICENSE"><img src="https://img.shields.io/github/license/hamedniroomand/vaporfit?color=f5a623" alt="MIT license"></a>
+  <a href="https://vaporfit.kitdev.space/"><img src="https://img.shields.io/badge/docs-vaporfit-f5a623" alt="Documentation"></a>
+</p>
+
 Vue 3.6 can compile a component that has `<script setup vapor>` and print nothing when a feature is skipped. The build passes. At run time, a directive does not run, or a listener is not on the element.
 
 vaporfit reads the project files and reports the problems it knows about. You get the report before you change a component.
@@ -11,6 +17,10 @@ npx vaporfit
 ```
 
 vaporfit needs Node.js 22.18 or later. The data is for Vue 3.6.0-rc.14.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/hamedniroomand/vaporfit/main/docs/public/demo.gif" width="640" alt="vaporfit on a project that uses Reka UI: the report shows each finding with the file, the line, the rule and the chain of components. Then vaporfit fix lists the components that are ready.">
+</p>
 
 ## One finding
 
