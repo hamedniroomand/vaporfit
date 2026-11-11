@@ -1,6 +1,7 @@
 node_modules
 dist
-.output
+docs/.vitepress/dist
+docs/.vitepress/cache
 coverage
 *.log
 *.local
@@ -10,3 +11,4 @@ coverage
 .vscode
 .DS_Store
 .vitest/
+.output

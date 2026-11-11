@@ -1,19 +1,22 @@
 <script setup lang="ts">
-  import { useHead } from '@unhead/vue';
-  import AppLink from 'undocs/src/app/components/app/AppLink';
-  import Container from 'undocs/src/app/components/Container.vue';
-  import Icon from 'undocs/src/app/components/global/Icon.vue';
-  import { useAppConfig } from 'undocs/src/app/composables/useAppConfig';
-  import { usePageSEO } from 'undocs/src/app/composables/usePageSEO';
-  import { onBeforeUnmount, onMounted, ref } from 'vue';
+  import {
+    ArrowUpRight,
+    Bot,
+    Check,
+    Copy,
+    FlaskConical,
+    LayoutDashboard,
+    Library,
+    Rocket,
+    VolumeX,
+    WandSparkles,
+  } from 'lucide-vue-next';
+  import { onBeforeUnmount, onMounted, ref, watchEffect } from 'vue';
 
-  import ReportTerminal from '../components/ReportTerminal.vue';
-  import SilentDemo from '../components/SilentDemo.vue';
-  import VaporScene from '../components/VaporScene.vue';
-  import { useReveal } from '../utils/reveal';
-  import { useStructuredHead } from '../utils/seo';
-
-  import '../theme.css';
+  import { useReveal } from '../reveal';
+  import ReportTerminal from './ReportTerminal.vue';
+  import SilentDemo from './SilentDemo.vue';
+  import VaporScene from './VaporScene.vue';
 
   const COMMAND = 'npx vaporfit';
   const COPIED_MS = 1600;
@@ -23,67 +26,47 @@
 
   const FEATURES = [
     {
-      icon: 'i-lucide-volume-x',
+      icon: VolumeX,
       title: 'Finds silent failures',
       text: 'A lost listener gives no error and no warning. For a finding in a component, the report shows the file, the line and the rule.',
     },
     {
-      icon: 'i-lucide-library',
+      icon: Library,
       title: 'Knows the libraries',
       text: 'The <a href="/libraries">library table</a> has the verified version, the tests and the known broken features of each library.',
     },
     {
-      icon: 'i-lucide-flask-conical',
+      icon: FlaskConical,
       title: 'Shows the evidence',
       text: 'A row gets its data from a probe in <code>repros/</code>, a maintainer text or an issue link. The <a href="/upstream">upstream reports</a> have the steps.',
     },
     {
-      icon: 'i-lucide-wand-sparkles',
+      icon: WandSparkles,
       title: 'Edits the ready components',
       text: '<code>vaporfit fix</code> prints the changes. <code>--write</code> writes them only when the app already installs <code>vaporInteropPlugin</code>.',
     },
     {
-      icon: 'i-lucide-layout-dashboard',
+      icon: LayoutDashboard,
       title: 'Opens a local report',
       text: '<code>vaporfit ui</code> opens the report in a browser. <code>vaporfit report</code> writes the same page as static files.',
     },
     {
-      icon: 'i-lucide-bot',
+      icon: Bot,
       title: 'Works with agents',
       text: '<code>vaporfit mcp</code> serves three read-only tools over stdio. <code>--json</code> prints the report as JSON.',
     },
   ];
 
   const PAGES = [
-    { to: '/guide', title: 'Get started', text: 'The commands, the options and the exit codes.' },
+    { to: '/guide/', title: 'Get started', text: 'The commands, the options and the exit codes.' },
     { to: '/libraries', title: 'Libraries', text: 'The known broken features of each library.' },
     { to: '/rules', title: 'Rules', text: 'Each rule, with the failure type and the sources.' },
     {
-      to: '/upstream',
+      to: '/upstream/',
       title: 'Upstream reports',
       text: 'The steps and the cause of each failure.',
     },
   ];
-
-  const { site, docs } = useAppConfig();
-
-  usePageSEO({ title: `${site.name} - ${docs.shortDescription}`, description: site.description });
-
-  useStructuredHead(url => ({
-    '@graph': [
-      { '@type': 'WebSite', name: site.name, url, description: site.description },
-      {
-        '@type': 'SoftwareSourceCode',
-        name: site.name,
-        description: site.description,
-        url,
-        codeRepository: `https://github.com/${docs.github}`,
-        programmingLanguage: 'TypeScript',
-        runtimePlatform: 'Node.js',
-        license: 'https://opensource.org/license/mit',
-      },
-    ],
-  }));
 
   // True while the hero is behind the header. The header then uses light text on the dark sky.
   const hero = ref<HTMLElement | null>(null);
@@ -93,14 +76,21 @@
     overHero.value = (hero.value?.getBoundingClientRect().bottom ?? 0) > 64;
   }
 
-  useHead({ htmlAttrs: { 'data-vf-hero': () => (overHero.value ? '' : undefined) } });
+  watchEffect(() => {
+    if (!import.meta.env.SSR) {
+      document.documentElement.toggleAttribute('data-vf-hero', overHero.value);
+    }
+  });
 
   onMounted(() => {
     measure();
     addEventListener('scroll', measure, { passive: true });
   });
 
-  onBeforeUnmount(() => removeEventListener('scroll', measure));
+  onBeforeUnmount(() => {
+    removeEventListener('scroll', measure);
+    document.documentElement.removeAttribute('data-vf-hero');
+  });
 
   const copied = ref(false);
 
@@ -127,7 +117,7 @@
       class="hero"
     >
       <VaporScene />
-      <Container>
+      <div class="vf-container">
         <div class="hero-body">
           <h1
             class="word"
@@ -149,24 +139,21 @@
             it knows about.
           </p>
           <div class="actions">
-            <AppLink
-              to="/guide"
+            <a
+              href="/guide/"
               class="pill pill-main"
             >
-              <Icon
-                name="i-lucide-rocket"
-                class="size-4"
-              />
+              <Rocket class="size-4" />
               Get started
-            </AppLink>
+            </a>
             <button
               type="button"
               class="pill pill-code"
               @click="copy"
             >
               <code>{{ COMMAND }}</code>
-              <Icon
-                :name="copied ? 'i-lucide-check' : 'i-lucide-copy'"
+              <component
+                :is="copied ? Check : Copy"
                 class="size-4"
               />
               <span
@@ -177,10 +164,10 @@
             </button>
           </div>
         </div>
-      </Container>
+      </div>
     </section>
 
-    <Container>
+    <div class="vf-container">
       <section class="block-demo">
         <h2 class="heading">The same button, with and without vapor</h2>
         <SilentDemo>
@@ -193,12 +180,12 @@
             The VDOM button has <code>aria-haspopup="dialog"</code>, and a click opens the dialog.
             The Vapor button has no attributes and no listener. A click does nothing. The console is
             empty. There is no Vue warning.
-            <AppLink
-              to="/upstream/reka-ui-as-child"
+            <a
+              href="/upstream/reka-ui-as-child"
               class="text-brand underline underline-offset-4"
             >
               Read the Reka UI report
-            </AppLink>
+            </a>
           </p>
         </SilentDemo>
       </section>
@@ -240,8 +227,8 @@
             class="vf-r"
             :style="{ '--i': index + 1 }"
           >
-            <Icon
-              :name="feature.icon"
+            <component
+              :is="feature.icon"
               class="text-brand size-6"
             />
             <h3>{{ feature.title }}</h3>
@@ -264,22 +251,35 @@
             class="vf-r"
             :style="{ '--i': index + 1 }"
           >
-            <AppLink :to="page.to">
+            <a :href="page.to">
               <span class="vf-display">{{ page.title }}</span>
               <span>{{ page.text }}</span>
-              <Icon
-                name="i-lucide-arrow-up-right"
-                class="arrow size-5"
-              />
-            </AppLink>
+              <ArrowUpRight class="arrow size-5" />
+            </a>
           </li>
         </ul>
       </section>
-    </Container>
+    </div>
   </div>
 </template>
 
 <style scoped>
+  .landing {
+    font-family: var(--font-sans);
+  }
+
+  .vf-container {
+    max-width: 80rem;
+    padding-inline: 1.5rem;
+    margin-inline: auto;
+  }
+
+  @media (min-width: 48rem) {
+    .vf-container {
+      padding-inline: 2.5rem;
+    }
+  }
+
   /* The hero goes up behind the header, which has no background at the top of the page. */
   .hero {
     position: relative;

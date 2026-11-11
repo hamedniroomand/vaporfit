@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vite-plus/test';
 
-import { sitemapXml } from '#site/docs.ts';
 import { fillBlock, libraryMarkdown, ruleMarkdown } from '#site/markdown.ts';
 import type { LibraryRow } from '#site/table.ts';
 
@@ -101,20 +100,5 @@ describe('fillBlock', () => {
 
   it('throws when the page has no markers', () => {
     expect(() => fillBlock('Intro\n', 'new')).toThrow('The page has no block for the table');
-  });
-});
-
-describe('sitemapXml', () => {
-  it('writes one url element for each address', () => {
-    expect(sitemapXml(['https://example.com/', 'https://example.com/rules'])).toBe(
-      [
-        '<?xml version="1.0" encoding="UTF-8"?>',
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-        '  <url><loc>https://example.com/</loc></url>',
-        '  <url><loc>https://example.com/rules</loc></url>',
-        '</urlset>',
-        '',
-      ].join('\n'),
-    );
   });
 });
