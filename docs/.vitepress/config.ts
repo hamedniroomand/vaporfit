@@ -144,8 +144,8 @@ export default defineConfig({
   markdown: {
     config(md) {
       md.use(copyOrDownloadAsMarkdownButtons);
-      // The title and the description of a page go into one header block: the sky panel.
-      md.core.ruler.push('vf-sky', state => {
+      // The section, the title and the description of a page go into one header block.
+      md.core.ruler.push('vf-head', state => {
         const tokens = state.tokens;
         const open = tokens.findIndex(token => token.type === 'heading_open' && token.tag === 'h1');
         const close = tokens.findIndex(
@@ -159,8 +159,14 @@ export default defineConfig({
             : '';
         const end = new state.Token('html_block', '', 0);
         end.content = `${lead}</header>\n`;
+        const section = sections[route(String(state.env.relativePath)).split('/')[0] ?? ''];
+        const isIndex = String(state.env.relativePath).endsWith('index.md');
+        const crumb =
+          section === undefined || isIndex
+            ? ''
+            : `<p class="vf-crumb"><a href="${link(`${String(state.env.relativePath).split('/')[0]}/index.md`)}">${section}</a></p>`;
         const start = new state.Token('html_block', '', 0);
-        start.content = '<header class="vf-sky">\n';
+        start.content = `<header class="vf-head">${crumb}\n`;
         tokens.splice(close + 1, 0, end);
         tokens.splice(open, 0, start);
       });

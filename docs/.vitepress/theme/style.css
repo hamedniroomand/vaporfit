@@ -145,55 +145,65 @@ html[data-vf-hero] .VPNavBarSearchButton {
   color: #fff;
 }
 
-/* The header of a docs page is a part of the sky of the landing page. */
-.vp-doc .vf-sky {
-  position: relative;
+/* Vapor behind the top of a docs page. It has the colors of the sky of the landing page. */
+.Layout {
   isolation: isolate;
-  padding: 3.5rem 2rem 2.25rem;
-  margin: 0 0 1.5rem;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  color: #fff;
-  background: linear-gradient(
-    168deg,
-    #0d1030 0%,
-    #272450 38%,
-    #5f3a6c 66%,
-    #a8506a 86%,
-    #ea8a4c 100%
-  );
-  border-radius: 1rem;
 }
 
-/* The stars, then two layers of vapor that move to the left. Each layer has its pattern two times. */
-.vp-doc .vf-sky::before,
-.vp-doc .vf-sky::after {
+.vf-wash {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: -1;
+  height: 30rem;
+  overflow: hidden;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, #000 30%, transparent);
+  mask-image: linear-gradient(to bottom, #000 30%, transparent);
+}
+
+/* Each layer has its pattern two times, so the move to the left has no seam. */
+.vf-wash::before,
+.vf-wash::after {
   position: absolute;
   inset: 0 auto 0 0;
-  z-index: -1;
   width: 200%;
   content: '';
   background-repeat: repeat-x;
   background-size: 50% 100%;
 }
 
-.vp-doc .vf-sky::before {
+.vf-wash::before {
   background-image:
-    radial-gradient(1.2px 1.2px at 12% 22%, #fff, transparent),
-    radial-gradient(1px 1px at 41% 14%, rgb(255 255 255 / 0.8), transparent),
-    radial-gradient(1.3px 1.3px at 68% 30%, #fff, transparent),
-    radial-gradient(1px 1px at 91% 18%, rgb(255 255 255 / 0.7), transparent),
-    radial-gradient(ellipse 30% 22% at 80% 12%, rgb(120 130 255 / 0.28), transparent 70%);
+    radial-gradient(ellipse 22% 60% at 30% -8%, rgb(168 80 106 / 0.3), transparent 70%),
+    radial-gradient(ellipse 26% 70% at 58% -14%, rgb(245 166 35 / 0.36), transparent 70%),
+    radial-gradient(ellipse 20% 56% at 84% -6%, rgb(95 58 108 / 0.3), transparent 70%);
+  filter: blur(24px);
+  animation: vf-drift 70s linear infinite;
 }
 
-.vp-doc .vf-sky::after {
+.vf-wash::after {
+  display: none;
   background-image:
-    radial-gradient(ellipse 34% 26% at 22% 104%, rgb(255 246 232 / 0.5), transparent 70%),
-    radial-gradient(ellipse 26% 22% at 70% 108%, rgb(255 226 190 / 0.55), transparent 70%),
-    radial-gradient(ellipse 20% 30% at 46% 96%, rgb(255 255 255 / 0.22), transparent 70%);
-  filter: blur(14px);
-  animation: vf-drift 48s linear infinite;
+    radial-gradient(1.2px 1.2px at 12% 22%, #fff, transparent),
+    radial-gradient(1px 1px at 27% 48%, rgb(255 255 255 / 0.7), transparent),
+    radial-gradient(1.4px 1.4px at 41% 14%, #fff, transparent),
+    radial-gradient(1px 1px at 56% 36%, rgb(255 255 255 / 0.7), transparent),
+    radial-gradient(1.3px 1.3px at 68% 9%, #fff, transparent),
+    radial-gradient(1px 1px at 79% 42%, rgb(255 255 255 / 0.8), transparent),
+    radial-gradient(1.2px 1.2px at 91% 27%, #fff, transparent);
+  background-size: 37rem 23rem;
+  opacity: 0.7;
+}
+
+.dark .vf-wash::before {
+  background-image:
+    radial-gradient(ellipse 22% 60% at 30% -8%, rgb(168 80 106 / 0.42), transparent 70%),
+    radial-gradient(ellipse 26% 70% at 58% -14%, rgb(234 138 76 / 0.3), transparent 70%),
+    radial-gradient(ellipse 20% 56% at 84% -6%, rgb(120 130 255 / 0.34), transparent 70%);
+}
+
+.dark .vf-wash::after {
+  display: block;
 }
 
 @keyframes vf-drift {
@@ -202,61 +212,73 @@ html[data-vf-hero] .VPNavBarSearchButton {
   }
 }
 
-.vp-doc .vf-sky h1 {
-  max-width: 22ch;
-  font-size: clamp(2.125rem, 4.6vw, 3.25rem);
+@media (min-width: 60rem) {
+  .VPSidebar {
+    --vp-sidebar-bg-color: transparent;
+  }
+}
+
+/* The header of a docs page: the section, the title, the lead text and the copy button. */
+.vp-doc .vf-head {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0 1.5rem;
+  align-items: start;
+  padding-bottom: 1.75rem;
+  margin-bottom: 1.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.vp-doc .vf-crumb {
+  grid-column: 1 / -1;
+  margin: 0 0 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.vp-doc .vf-crumb a {
+  font-weight: 500;
+  color: var(--muted-foreground);
+  text-decoration: none;
+}
+
+.vp-doc .vf-crumb a:hover {
+  color: var(--brand);
+}
+
+.vp-doc .vf-head h1 {
+  grid-column: 1;
+  font-size: clamp(2.25rem, 4.4vw, 3rem);
   font-weight: 500;
   font-variation-settings:
     'SOFT' 100,
     'WONK' 0;
-  line-height: 1.05;
+  line-height: 1.08;
   letter-spacing: -0.025em;
-  color: #fff;
-  text-shadow: 0 0 40px rgb(255 220 170 / 0.3);
   text-wrap: balance;
 }
 
-.vp-doc .vf-sky h1 code {
+.vp-doc .vf-head h1 code {
   padding: 0.05em 0.3em;
   font-size: 0.78em;
-  color: inherit;
-  background: rgb(255 255 255 / 0.12);
-  border: 0;
 }
 
-/* The copy button comes after the lead text. It is glass, as the buttons on the landing page. */
-.vp-doc .vf-sky .markdown-copy-buttons {
-  order: 1;
-  margin: 1.5rem 0 0;
-}
-
-.vp-doc .vf-sky .dropdown-trigger {
-  color: #fff;
-  background: rgb(255 255 255 / 0.14);
-  border-color: rgb(255 255 255 / 0.34);
-  -webkit-backdrop-filter: blur(14px);
-  backdrop-filter: blur(14px);
-}
-
-.vp-doc .vf-sky .dropdown-trigger button {
-  color: #fff;
-}
-
-.vp-doc .vf-sky .dropdown-trigger .divider {
-  background: rgb(255 255 255 / 0.34);
-}
-
-.vp-doc .vf-sky .header-anchor {
+.vp-doc .vf-head .header-anchor {
   display: none;
 }
 
-.vp-doc .vf-sky .vf-lead {
-  max-width: 34rem;
+.vp-doc .vf-head .markdown-copy-buttons {
+  grid-column: 2;
+  margin: 0.5rem 0 0;
+}
+
+.vp-doc .vf-head .vf-lead {
+  grid-column: 1 / -1;
+  max-width: 40rem;
   margin: 1rem 0 0;
-  font-size: 1.0625rem;
+  font-size: 1.125rem;
   line-height: 1.6;
-  color: rgb(255 255 255 / 0.88);
-  text-shadow: 0 1px 12px rgb(13 16 48 / 0.45);
+  color: var(--muted-foreground);
 }
 
 .vp-doc h2 {
@@ -280,10 +302,23 @@ html[data-vf-hero] .VPNavBarSearchButton {
   border: 1px solid var(--border);
 }
 
-/* A code block has the frame of the report on the landing page. */
-.vp-doc div[class*='language-'] {
+/* A code block and a table have the frame of the report on the landing page. */
+.vp-doc div[class*='language-'],
+.vp-doc table {
+  background: var(--card);
   border: 1px solid var(--border);
   border-radius: 1rem;
+  box-shadow: 0 0 0 0.3rem color-mix(in oklab, var(--muted) 55%, transparent);
+}
+
+.vp-doc table {
+  width: fit-content;
+  max-width: 100%;
+  margin: 1.5rem 0.3rem;
+}
+
+.vp-doc tr:last-child td {
+  border-bottom: 0;
 }
 
 .vp-doc .vf-verdict {
@@ -395,15 +430,18 @@ html[data-vf-hero] .VPNavBarSearchButton {
 }
 
 @media (max-width: 47.99rem) {
-  .vp-doc .vf-sky {
-    padding: 2.5rem 1.5rem 1.75rem;
-    margin: -2rem -1.5rem 1.5rem;
-    border-radius: 0;
+  .vp-doc .vf-head {
+    grid-template-columns: 1fr;
+  }
+
+  .vp-doc .vf-head .markdown-copy-buttons {
+    grid-column: 1;
+    margin-top: 1.25rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .vp-doc .vf-sky::after {
+  .vf-wash::before {
     animation: none;
   }
 
@@ -461,4 +499,8 @@ html[data-vf-hero] .VPNavBarSearchButton {
     opacity: 1;
     transform: none;
   }
+}
+
+.vp-doc td code {
+  white-space: nowrap;
 }
