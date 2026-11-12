@@ -105,6 +105,16 @@ describe('loadData with a bad file', () => {
   });
 });
 
+describe('loadData JSON', () => {
+  it('rejects a file that is not valid JSON', () => {
+    const copy = mkdtempSync(path.join(tmpdir(), 'vaporfit-data-'));
+    cpSync(dataDirectory, copy, { recursive: true });
+    writeFileSync(path.join(copy, 'rules/v-memo.json'), '{');
+
+    expect(() => loadData(copy)).toThrow('not valid JSON');
+  });
+});
+
 describe('loadData tested evidence', () => {
   it('rejects a tested evidence without a depth', () => {
     const copy = copyWith('libraries/element-plus.json', value => {

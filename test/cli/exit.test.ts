@@ -91,6 +91,32 @@ describe('exit codes', () => {
   });
 });
 
+describe('command input', () => {
+  it('prints help and the version', () => {
+    const help = captureIo(process.cwd());
+    expect(run(['--help'], help)).toBe(0);
+    expect(help.output()).toContain('Usage: vaporfit');
+
+    const version = captureIo(process.cwd());
+    expect(run(['--version'], version)).toBe(0);
+    expect(version.output()).toMatch(/^\d+\.\d+\.\d+\n$/u);
+  });
+
+  it('exits 2 for an unknown command, --out on check, and report without --out', () => {
+    const unknown = captureIo(process.cwd());
+    expect(run(['nope'], unknown)).toBe(2);
+    expect(unknown.errors()).toContain('Unknown command: nope.');
+
+    const out = captureIo(process.cwd());
+    expect(run(['check', '--out', 'out'], out)).toBe(2);
+    expect(out.errors()).toContain('--out is only for report.');
+
+    const report = captureIo(process.cwd());
+    expect(run(['report'], report)).toBe(2);
+    expect(report.errors()).toContain('Set --out to a directory.');
+  });
+});
+
 describe('exit codes and the pure tier', () => {
   it('exits 0 when a component that has vapor renders a blocked VDOM child', () => {
     const root = withPlugin({

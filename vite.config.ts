@@ -132,7 +132,7 @@ export default defineConfig({
     coverage: {
       reporter: ['text', 'lcov'],
       // A little below the measured values. A change that removes tests fails the run.
-      thresholds: { statements: 86, branches: 75, functions: 93, lines: 90 },
+      thresholds: { statements: 88, branches: 80, functions: 95, lines: 93 },
     },
   },
 });
