@@ -164,8 +164,14 @@ function declarationText(finding: Finding): string {
 }
 
 function findingBlocks(report: Report): string[] {
-  const findings = report.components.flatMap(component => component.findings).toSorted(byFailure);
-  return findings.map(finding => {
+  const all = report.components.flatMap(component => component.findings);
+  // Each component of a Nuxt project has the same Nuxt finding. The text shows it one time,
+  // with no id and no location. The JSON report keeps one finding for each component.
+  const nuxt = all.find(finding => finding.rule === RULE.nuxt);
+  const nuxtBlock =
+    nuxt === undefined ? [] : [`${nuxt.level} ${nuxt.failure}\n${nuxt.message}\n${nuxt.rule}`];
+  const findings = all.filter(finding => finding.rule !== RULE.nuxt).toSorted(byFailure);
+  const blocks = findings.map(finding => {
     const lines = [
       `${finding.level} ${finding.failure} ${findingId(finding)}`,
       finding.message,
@@ -180,6 +186,7 @@ function findingBlocks(report: Report): string[] {
     }
     return lines.join('\n');
   });
+  return [...nuxtBlock, ...blocks];
 }
 
 function failureRank(failure: Report['components'][number]['findings'][number]['failure']): number {

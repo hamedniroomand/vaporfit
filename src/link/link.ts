@@ -24,7 +24,7 @@ export function linkFiles(project: Project, files: FileAnalysis[]): ComponentRep
   const link: LinkContext = {
     files: new Map(files.map(file => [file.absolute, file])),
     project,
-    registries: readRegistries(project.root, project.compiler),
+    registries: readRegistries(project),
   };
   const extras = new Map<string, Finding[]>();
   for (const file of files) {

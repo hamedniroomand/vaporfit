@@ -195,7 +195,7 @@ const label = 'ok'
 
     expect(component?.pure).toBe('blocked');
     expect(finding?.level).toBe('error');
-    expect(finding?.message).toBe('A top-level await in script setup throws in Vapor.');
+    expect(finding?.message).toBe('A top-level await in script setup throws in createVaporApp().');
     const block = must(finding, 'await finding');
     expect(textAt(path.join(root, 'src/App.vue'), block, 'await'.length)).toBe('await');
     expect(getComponent(report, 'src/Inner.vue')?.pure).toBe('ready');
@@ -222,6 +222,33 @@ describe('pure Nuxt project', () => {
         rule: 'vapor/nuxt-interop-only',
       }),
     );
+  });
+
+  it('gives only the Nuxt finding for the pure tier, and the text shows it one time', () => {
+    const root = writeProject({
+      'nuxt.config.ts': 'export default defineNuxtConfig({})\n',
+      'src/Leaf.vue': `<script setup>
+const label = 'leaf'
+</script>
+<template><p>{{ label }}</p></template>
+`,
+      'src/Page.vue': `<script setup>
+import Leaf from './Leaf.vue'
+const label = await Promise.resolve('page')
+</script>
+<template><Leaf /><p>{{ label }}</p></template>
+`,
+    });
+    const report = analyze(root);
+    const rules = report.components.flatMap(component =>
+      component.findings.map(finding => finding.rule),
+    );
+
+    expect(rules).toEqual(['vapor/nuxt-interop-only', 'vapor/nuxt-interop-only']);
+    expect(report.summary.pure).toEqual({ blocked: 2, ready: 0, unknown: 0 });
+    const text = formatText(report);
+    expect(text.split('A Nuxt project supports interop mode only.').length - 1).toBe(1);
+    expect(text).toContain('Keeps the VDOM runtime\nvapor/nuxt-interop-only 2\n');
   });
 });
 

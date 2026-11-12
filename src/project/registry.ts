@@ -10,6 +10,7 @@ import type { SyntaxNode } from '#syntax/ast.ts';
 import { readAppComponents } from './app-components.ts';
 import { readText } from './files.ts';
 import { packageNameOf } from './manifest.ts';
+import type { Project } from './project.ts';
 import { remember } from './targets.ts';
 import type { TagTarget } from './targets.ts';
 
@@ -30,14 +31,23 @@ interface DeclarationEntry {
   specifier: string;
 }
 
-export function readRegistries(root: string, compiler: VueCompiler): Registries {
+// Each analysis opens a new project, so a cached value is not stale.
+const registriesOf = new WeakMap<Project, Registries>();
+
+/** The registries of a project. The tool reads them one time for each project. */
+export function readRegistries(project: Project): Registries {
+  const known = registriesOf.get(project);
+  if (known !== undefined) return known;
+  const { compiler, root } = project;
   const unreadable = new Set<string>();
-  return {
+  const registries = {
     app: readAppComponents(root, compiler, unreadable),
     nuxt: readDeclaration(path.join(root, '.nuxt/components.d.ts'), compiler),
     unplugin: readDeclaration(path.join(root, 'components.d.ts'), compiler),
     unreadable,
   };
+  registriesOf.set(project, registries);
+  return registries;
 }
 
 export function lookupTag(
