@@ -46,7 +46,6 @@
     "build": "vp pack && vp build --config ui/vite.config.ts",
     "changeset": "changeset",
     "changeset:version": "changeset version && vp fmt",
-    "ready": "vp check && vp test && vp run build",
     "repros": "vpx ./repros/check.mjs",
     "prepare": "vp config"
   },

@@ -48,7 +48,9 @@ jobs:
         run: |
           vp -C test/fixtures/shadcn install --frozen-lockfile -- --ignore-workspace
           for dir in repros/*/; do vp -C "$dir" install --frozen-lockfile; done
-      - run: vp run ready
+      - run: vp check
+      - run: vp test
+      - run: vp run build
       - name: Check npm
         run: vp node -e "const [a, b, c] = process.argv[1].split('.').map(Number); if (a < 11 || (a === 11 && (b < 5 || (b === 5 && c < 1)))) { console.error('npm ' + process.argv[1] + ' is older than 11.5.1'); process.exit(1); }" "$(npm --version)"
       - name: Pack
