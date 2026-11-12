@@ -5,31 +5,8 @@ import { browserPage } from './browser.ts';
 export const READY_SENTENCE =
   '"ready" means that vaporfit found no known problem. It does not test behavior.';
 
-export interface ViewLocation {
-  file: string;
-  line: number;
-  column: number;
-}
-
-export interface ViewFinding {
-  rule: string;
-  level: string;
-  failure: string;
-  message: string;
-  location: ViewLocation;
-  chain?: string[];
-  package?: { name: string; version: string | null };
-  evidence?: unknown;
-}
-
-export interface ViewComponent {
-  id: string;
-  file: string;
-  vapor: boolean;
-  interop: string;
-  pure: string;
-  findings: ViewFinding[];
-}
+export type { ViewComponent, ViewFinding, ViewLocation } from './view.ts';
+import type { ViewComponent, ViewLocation } from './view.ts';
 
 export interface ViewReport {
   summary: {
@@ -38,33 +15,36 @@ export interface ViewReport {
     pure: { ready: number; blocked: number; unknown: number };
   };
   project: {
+    root: string;
+    vue: string | null;
+    compiler: { source: string; version: string };
     interopPlugin: {
       state: string;
       level: string | null;
       location: ViewLocation | null;
     };
-    coverage: { withData: string[]; withoutData: string[] };
+    coverage: { withData: string[]; withoutData: string[]; stale?: string[] };
   };
   components: ViewComponent[];
   groups: { rule: string; components: number }[];
-  tool: { version: string };
+  tool: { version: string; data: string };
 }
 
-export function evidenceUrls(evidence: unknown): string[] {
-  if (!Array.isArray(evidence)) return [];
-  const urls: string[] = [];
-  for (const item of evidence) {
-    if (!isRecord(item)) continue;
-    const url = item.url;
-    if (typeof url === 'string' && (url.startsWith('https://') || url.startsWith('http://'))) {
-      urls.push(url);
-    }
-  }
-  return urls;
+export type Tone = 'ready' | 'blocked' | 'unknown';
+
+/** The tone of the plugin callout. An error blocks each Vapor component at mount. */
+export function pluginTone(report: ViewReport): Tone {
+  const plugin = report.project.interopPlugin;
+  if (plugin.state === 'installed') return 'ready';
+  if (plugin.level === 'error') return 'blocked';
+  return 'unknown';
 }
 
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null;
+export function pluginTitle(report: ViewReport): string {
+  const { state } = report.project.interopPlugin;
+  if (state === 'installed') return 'vaporInteropPlugin is installed';
+  if (state === 'undetermined') return 'vaporInteropPlugin: not determined';
+  return 'vaporInteropPlugin is not installed';
 }
 
 export function pluginText(report: ViewReport): string[] {

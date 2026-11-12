@@ -2,40 +2,42 @@
   import { computed, onMounted, onUnmounted, ref } from 'vue';
 
   import { browserPage } from './browser';
+  import ComponentsView from './ComponentsView.vue';
+  import DetailView from './DetailView.vue';
+  import LibrariesView from './LibrariesView.vue';
+  import RankingsView from './RankingsView.vue';
   import ReadyNote from './ReadyNote.vue';
-  import {
-    evidenceUrls,
-    loadReport,
-    pluginText,
-    type ViewFinding,
-    type ViewReport,
-  } from './report';
+  import { loadReport, type ViewReport } from './report';
+  import SummaryView from './SummaryView.vue';
+  import { baseName, parseRoute } from './view';
 
   const report = ref<ViewReport | null>(null);
   const error = ref('');
   const hash = ref(readHash());
-  const filter = ref('all');
   const theme = ref(initialTheme());
 
-  const view = computed(() => {
-    const value = hash.value;
-    if (value.startsWith('#/component/')) return 'detail';
-    if (value.startsWith('#/components')) return 'components';
-    if (value.startsWith('#/rankings')) return 'rankings';
-    if (value.startsWith('#/libraries')) return 'libraries';
-    return 'summary';
-  });
+  const route = computed(() => parseRoute(hash.value));
 
-  const detail = computed(() => {
-    const id = decodeURIComponent(hash.value.slice('#/component/'.length));
-    return report.value?.components.find(component => component.id === id);
-  });
+  const detail = computed(() =>
+    report.value?.components.find(component => component.id === route.value.id),
+  );
 
-  const rows = computed(() => {
-    const components = report.value?.components ?? [];
-    if (filter.value === 'all') return components;
-    return components.filter(component => component.interop === filter.value);
-  });
+  const tabs = computed(() => [
+    { count: null, href: '#/', label: 'Summary', view: 'summary' },
+    {
+      count: report.value?.summary.components ?? null,
+      href: '#/components',
+      label: 'Components',
+      view: 'components',
+    },
+    {
+      count: report.value?.groups.length ?? null,
+      href: '#/rankings',
+      label: 'Rankings',
+      view: 'rankings',
+    },
+    { count: null, href: '#/libraries', label: 'Libraries', view: 'libraries' },
+  ]);
 
   function readHash(): string {
     return browserPage().location.hash;
@@ -61,18 +63,9 @@
     applyTheme();
   }
 
-  function place(finding: ViewFinding): string {
-    const { file, line, column } = finding.location;
-    return `${file}:${line}:${column}`;
-  }
-
-  function packageLine(finding: ViewFinding): string | undefined {
-    if (finding.package === undefined) return undefined;
-    return `package ${finding.package.name} ${finding.package.version ?? 'none'}`;
-  }
-
-  function current(name: string): 'page' | undefined {
-    return view.value === name ? 'page' : undefined;
+  function current(view: string): 'page' | undefined {
+    const active = route.value.view === 'detail' ? 'components' : route.value.view;
+    return active === view ? 'page' : undefined;
   }
 
   onMounted(() => {
@@ -81,7 +74,8 @@
     loadReport(value => {
       report.value = value;
     }).catch(() => {
-      error.value = 'The report is not available.';
+      error.value =
+        'The report is not available. Run vaporfit ui again, or make the static report again.';
     });
   });
 
@@ -91,248 +85,161 @@
 </script>
 
 <template>
-  <header>
-    <div>
-      <h1>vaporfit</h1>
-      <p
-        v-if="report"
-        class="meta"
+  <a
+    class="skip-link"
+    href="#content"
+    >Skip to the report</a
+  >
+  <header class="site-header">
+    <div class="bar">
+      <a
+        class="brand"
+        href="#/"
       >
-        {{ report.tool.version }}
-      </p>
+        <svg
+          class="brand-mark"
+          viewBox="0 0 32 32"
+          aria-hidden="true"
+        >
+          <path d="M5 8l9 17 4-7.5" />
+          <circle
+            cx="21.6"
+            cy="11.6"
+            r="2.3"
+            opacity=".8"
+          />
+          <circle
+            cx="24.8"
+            cy="6.6"
+            r="1.8"
+            opacity=".55"
+          />
+          <circle
+            cx="27.4"
+            cy="2.8"
+            r="1.3"
+            opacity=".3"
+          />
+        </svg>
+        <span>vaporfit</span>
+      </a>
+      <span
+        v-if="report"
+        class="project mono truncate"
+        :title="report.project.root"
+        >{{ baseName(report.project.root) }}</span
+      >
+      <button
+        type="button"
+        class="icon-button"
+        :aria-pressed="theme === 'dark'"
+        :title="theme === 'dark' ? 'Use the light theme' : 'Use the dark theme'"
+        @click="toggleTheme"
+      >
+        <svg
+          v-if="theme === 'dark'"
+          viewBox="0 0 20 20"
+          aria-hidden="true"
+        >
+          <circle
+            cx="10"
+            cy="10"
+            r="3.5"
+          />
+          <path
+            d="M10 2.5v1.8M10 15.7v1.8M2.5 10h1.8M15.7 10h1.8M4.7 4.7l1.3 1.3M14 14l1.3 1.3M4.7 15.3 6 14M14 6l1.3-1.3"
+          />
+        </svg>
+        <svg
+          v-else
+          viewBox="0 0 20 20"
+          aria-hidden="true"
+        >
+          <path d="M16 12.5A6.5 6.5 0 0 1 7.5 4a6.5 6.5 0 1 0 8.5 8.5Z" />
+        </svg>
+        <span class="sr-only">Theme</span>
+      </button>
     </div>
-    <button
-      type="button"
-      :aria-pressed="theme === 'dark'"
-      @click="toggleTheme"
-    >
-      Theme
-    </button>
-  </header>
-  <main>
     <nav
-      class="nav"
+      class="tabs"
       aria-label="Report"
     >
       <a
-        href="#/"
-        :aria-current="current('summary')"
-        >Summary</a
+        v-for="tab in tabs"
+        :key="tab.view"
+        :href="tab.href"
+        :aria-current="current(tab.view)"
       >
-      <a
-        href="#/components"
-        :aria-current="current('components')"
-        >Components</a
-      >
-      <a
-        href="#/rankings"
-        :aria-current="current('rankings')"
-        >Rankings</a
-      >
-      <a
-        href="#/libraries"
-        :aria-current="current('libraries')"
-        >Libraries</a
-      >
+        {{ tab.label }}
+        <span
+          v-if="tab.count !== null"
+          class="tab-count"
+          >{{ tab.count }}</span
+        >
+      </a>
     </nav>
-    <p
+  </header>
+
+  <main
+    id="content"
+    class="content"
+    tabindex="-1"
+  >
+    <div
       v-if="error"
-      class="error"
+      class="callout tone-blocked"
+      role="alert"
     >
-      {{ error }}
-    </p>
-    <p v-else-if="!report">The report is loading.</p>
+      <p class="callout-title">{{ error }}</p>
+    </div>
+    <div
+      v-else-if="!report"
+      class="stack"
+      aria-busy="true"
+      aria-label="The report is loading"
+    >
+      <div class="tier-grid">
+        <div class="panel skeleton tall" />
+        <div class="panel skeleton tall" />
+      </div>
+      <div class="panel skeleton" />
+      <div class="panel skeleton" />
+    </div>
     <template v-else>
-      <section v-if="view === 'summary'">
-        <h2>Summary</h2>
-        <h3>Interop</h3>
-        <dl class="counts card">
-          <div>
-            <dt>Components</dt>
-            <dd data-count="components">{{ report.summary.components }}</dd>
-          </div>
-          <div>
-            <dt>Ready</dt>
-            <dd data-count="ready">{{ report.summary.interop.ready }}</dd>
-          </div>
-          <div>
-            <dt>Blocked</dt>
-            <dd data-count="blocked">{{ report.summary.interop.blocked }}</dd>
-          </div>
-          <div>
-            <dt>Unknown</dt>
-            <dd data-count="unknown">{{ report.summary.interop.unknown }}</dd>
-          </div>
-        </dl>
-        <h3>Pure</h3>
-        <dl class="counts card">
-          <div>
-            <dt>Ready</dt>
-            <dd data-count="pure-ready">{{ report.summary.pure.ready }}</dd>
-          </div>
-          <div>
-            <dt>Blocked</dt>
-            <dd data-count="pure-blocked">{{ report.summary.pure.blocked }}</dd>
-          </div>
-          <div>
-            <dt>Unknown</dt>
-            <dd data-count="pure-unknown">{{ report.summary.pure.unknown }}</dd>
-          </div>
-        </dl>
-        <ReadyNote />
-        <section class="card">
-          <h2>Plugin</h2>
-          <p>
-            plugin {{ report.project.interopPlugin.state }}
-            <template v-if="report.project.interopPlugin.level">
-              {{ report.project.interopPlugin.level }}
-            </template>
-          </p>
-          <p
-            v-for="line in pluginText(report)"
-            :key="line"
-          >
-            {{ line }}
-          </p>
-          <p
-            v-if="report.project.interopPlugin.location"
-            class="meta"
-          >
-            {{ report.project.interopPlugin.location.file }}:{{
-              report.project.interopPlugin.location.line
-            }}:{{ report.project.interopPlugin.location.column }}
-          </p>
-        </section>
-        <section class="card">
-          <h2>Vue libraries with data: {{ report.project.coverage.withData.length }}</h2>
-          <ul>
-            <li
-              v-for="name in report.project.coverage.withData"
-              :key="name"
-            >
-              {{ name }}
-            </li>
-          </ul>
-          <h2>Vue libraries with no data: {{ report.project.coverage.withoutData.length }}</h2>
-          <ul>
-            <li
-              v-for="name in report.project.coverage.withoutData"
-              :key="name"
-            >
-              {{ name }}
-            </li>
-          </ul>
-        </section>
-      </section>
-
-      <section v-else-if="view === 'components'">
-        <h2>Components</h2>
-        <div class="filters">
-          <button
-            v-for="name in ['all', 'ready', 'blocked', 'unknown']"
-            :key="name"
-            type="button"
-            :aria-pressed="filter === name"
-            @click="filter = name"
-          >
-            {{ name }}
-          </button>
-        </div>
-        <ReadyNote />
-        <div class="card">
-          <div
-            v-for="component in rows"
-            :key="component.id"
-            class="row"
-          >
-            <a :href="`#/component/${encodeURIComponent(component.id)}`">{{ component.file }}</a>
-            <span :class="['verdict', component.interop]">interop {{ component.interop }}</span>
-            <span :class="['verdict', component.pure]">pure {{ component.pure }}</span>
-          </div>
-        </div>
-      </section>
-
-      <section v-else-if="view === 'detail'">
-        <p v-if="!detail">This component is not in the report.</p>
-        <template v-else>
-          <h2>{{ detail.file }}</h2>
-          <p :class="['verdict', detail.interop]">interop {{ detail.interop }}</p>
-          <p :class="['verdict', detail.pure]">pure {{ detail.pure }}</p>
-          <p class="meta">vapor {{ detail.vapor ? 'yes' : 'no' }}</p>
-          <ReadyNote />
-          <article
-            v-for="(finding, index) in detail.findings"
-            :key="`${finding.rule}-${index}`"
-            class="finding"
-          >
-            <h3>{{ finding.level }} {{ finding.failure }} {{ finding.rule }}</h3>
-            <p>{{ finding.message }}</p>
-            <p class="meta">{{ place(finding) }}</p>
-            <p
-              v-if="finding.chain && finding.chain.length > 0"
-              class="meta"
-            >
-              chain {{ finding.chain.join(' > ') }}
-            </p>
-            <p
-              v-if="packageLine(finding)"
-              class="meta"
-            >
-              {{ packageLine(finding) }}
-            </p>
-            <p
-              v-for="url in evidenceUrls(finding.evidence)"
-              :key="url"
-            >
-              <a
-                :href="url"
-                rel="noopener"
-                >Evidence</a
-              >
-            </p>
-          </article>
-        </template>
-      </section>
-
-      <section v-else-if="view === 'rankings'">
-        <h2>Holds back the most components</h2>
-        <div class="card">
-          <div
-            v-for="group in report.groups"
-            :key="group.rule"
-            class="row"
-          >
-            <span>{{ group.rule }}</span>
-            <span>{{ group.components }}</span>
-          </div>
-        </div>
-      </section>
-
-      <section v-else>
-        <h2>Libraries</h2>
-        <section class="card">
-          <h2>Vue libraries with data</h2>
-          <ul>
-            <li
-              v-for="name in report.project.coverage.withData"
-              :key="name"
-              data-library="with-data"
-            >
-              {{ name }}
-            </li>
-          </ul>
-          <h2>Vue libraries with no data</h2>
-          <ul>
-            <li
-              v-for="name in report.project.coverage.withoutData"
-              :key="name"
-              data-library="without-data"
-            >
-              {{ name }}
-            </li>
-          </ul>
-        </section>
-      </section>
+      <SummaryView
+        v-if="route.view === 'summary'"
+        :report="report"
+      />
+      <ComponentsView
+        v-else-if="route.view === 'components'"
+        :report="report"
+        :route="route"
+      />
+      <DetailView
+        v-else-if="route.view === 'detail'"
+        :component="detail"
+      />
+      <RankingsView
+        v-else-if="route.view === 'rankings'"
+        :report="report"
+      />
+      <LibrariesView
+        v-else
+        :report="report"
+      />
     </template>
   </main>
+
+  <footer class="site-footer">
+    <ReadyNote />
+    <p
+      v-if="report"
+      class="mono small muted"
+    >
+      vaporfit {{ report.tool.version }} · vue {{ report.project.vue ?? 'not installed' }} ·
+      compiler {{ report.project.compiler.version }} from
+      {{ report.project.compiler.source === 'tool' ? 'vaporfit' : 'the project' }} · data
+      {{ report.tool.data }}
+    </p>
+  </footer>
 </template>
