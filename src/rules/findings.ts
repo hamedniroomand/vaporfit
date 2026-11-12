@@ -2,7 +2,7 @@ import type { CompatData, Failure } from '#data/types.ts';
 import type { Project } from '#project/project.ts';
 import type { Finding, Level, SourceLocation } from '#report/types.ts';
 
-import type { FeatureDecision, FeatureHit } from './features.ts';
+import type { FeatureDecision, FeatureHit, InstalledVersions } from './features.ts';
 import { decideFeature } from './features.ts';
 import { RULE } from './messages.ts';
 
@@ -44,6 +44,10 @@ export function toolFinding(data: CompatData, parts: ToolFinding): Finding {
   return finding;
 }
 
+function installedVersions(project: Project, hit: FeatureHit): InstalledVersions {
+  return { library: project.versionOf(hit.library.package), vue: project.compiler.vue };
+}
+
 export function hitFindings(
   project: Project,
   hits: FeatureHit[],
@@ -51,8 +55,7 @@ export function hitFindings(
 ): Finding[] {
   const findings: Finding[] = [];
   for (const hit of hits) {
-    const version = project.versionOf(hit.library.package);
-    const decision = decideFeature(hit, version, location.file);
+    const decision = decideFeature(hit, installedVersions(project, hit), location.file);
     if (decision !== null) findings.push(fromDecision(decision, location));
   }
   return findings;
@@ -63,8 +66,8 @@ export function featureFinding(
   hit: FeatureHit,
   place: FeaturePlace,
 ): Finding | null {
-  const version = project.versionOf(hit.library.package);
-  const decision = decideFeature(hit, version, place.chain[0] ?? place.location.file);
+  const installed = installedVersions(project, hit);
+  const decision = decideFeature(hit, installed, place.chain[0] ?? place.location.file);
   if (decision === null) return null;
   const finding = fromDecision(decision, place.location);
   finding.chain = place.chain;

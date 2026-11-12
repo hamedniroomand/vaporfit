@@ -28,6 +28,10 @@ function isNullableString(value: unknown): boolean {
   return value === null || typeof value === 'string';
 }
 
+function isExactVersion(value: unknown): boolean {
+  return typeof value === 'string' && /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/u.test(value);
+}
+
 function oneOf(values: string[]): (value: unknown) => boolean {
   return value => typeof value === 'string' && values.includes(value);
 }
@@ -131,6 +135,11 @@ function checkLibrary(file: string, library: Json): void {
     check(file, 'features[].message', typeof item.message === 'string');
     checkEvidence(file, 'features[].evidence', item.evidence);
     check(file, 'features[].fixedIn', isNullableString(item.fixedIn));
+    check(
+      file,
+      'features[].fixedInVue',
+      item.fixedInVue === undefined || isExactVersion(item.fixedInVue),
+    );
   }
   check(file, 'notes', library.notes === undefined || typeof library.notes === 'string');
 }

@@ -62,7 +62,12 @@ describe('library statements', () => {
     expect(router?.file).toBe('vue-router.json');
     expect(router?.version).toBe('5.4.0');
     expect(router?.broken).toEqual([
-      { id: 'vue-router/global-properties', failure: 'runtime-error', issues: [] },
+      {
+        id: 'vue-router/global-properties',
+        failure: 'runtime-error',
+        issues: [],
+        fixedInVue: null,
+      },
     ]);
     expect(i18n?.declared).toEqual({
       kind: 'statement',
@@ -93,7 +98,7 @@ describe('known broken column', () => {
     expect(reka?.tested).toEqual([{ depth: 'D1', environment: 'vite build, Chrome 156' }]);
     expect(floating?.tested).toEqual([]);
     expect(floating?.broken).toEqual([
-      { id: 'floating-vue/v-tooltip', failure: 'silent', issues: [] },
+      { id: 'floating-vue/v-tooltip', failure: 'silent', issues: [], fixedInVue: null },
     ]);
   });
 });

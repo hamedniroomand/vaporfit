@@ -35,7 +35,13 @@ function declaredCell(declared: DeclaredCell): string {
 }
 
 function brokenCell(broken: BrokenCell): string {
-  return [`\`${broken.id}\``, `Failure: ${broken.failure}`, ...broken.issues.map(link)].join(BREAK);
+  const fix = broken.fixedInVue === null ? [] : [`Fixed in Vue ${text(broken.fixedInVue)}`];
+  return [
+    `\`${broken.id}\``,
+    `Failure: ${broken.failure}`,
+    ...fix,
+    ...broken.issues.map(link),
+  ].join(BREAK);
 }
 
 function libraryLine(row: LibraryRow): string {
