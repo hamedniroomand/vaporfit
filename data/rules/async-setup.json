@@ -1,7 +1,7 @@
 {
   "schemaVersion": 0,
   "id": "vapor/async-setup",
-  "title": "A top-level await in script setup throws in Vapor",
+  "title": "A top-level await in script setup throws in createVaporApp()",
   "tiers": ["pure"],
   "failure": "runtime-error",
   "detection": "static",

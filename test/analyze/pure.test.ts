@@ -195,7 +195,7 @@ const label = 'ok'
 
     expect(component?.pure).toBe('blocked');
     expect(finding?.level).toBe('error');
-    expect(finding?.message).toBe('A top-level await in script setup throws in Vapor.');
+    expect(finding?.message).toBe('A top-level await in script setup throws in createVaporApp().');
     const block = must(finding, 'await finding');
     expect(textAt(path.join(root, 'src/App.vue'), block, 'await'.length)).toBe('await');
     expect(getComponent(report, 'src/Inner.vue')?.pure).toBe('ready');

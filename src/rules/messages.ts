@@ -32,7 +32,7 @@ export const TEXT = {
   pluginUnknown: 'The tool cannot tell if vaporInteropPlugin is installed.',
   vdom: 'A VDOM component renders nothing in createVaporApp().',
   convert: 'Convert this component first.',
-  asyncSetup: 'A top-level await in script setup throws in Vapor.',
+  asyncSetup: 'A top-level await in script setup throws in createVaporApp().',
   nuxt: 'A Nuxt project supports interop mode only.',
 } as const;
 
