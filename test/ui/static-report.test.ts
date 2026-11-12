@@ -38,6 +38,7 @@ describe('static report', () => {
       const page = await browser.newPage({ viewport: { height: 800, width: 390 } });
       await readSummary(page, site.url, report);
       await readDetail(page, site.url, report);
+      await readComponents(page, site.url, report);
       await readLayout(page);
     } finally {
       await browser.close();
@@ -74,6 +75,39 @@ async function readDetail(
   const rule = component?.findings[0]?.rule ?? '';
   await page.locator('h3').filter({ hasText: rule }).first().waitFor();
   await expectSentence(page);
+}
+
+async function readComponents(
+  page: Page,
+  url: string,
+  report: ReturnType<typeof analyze>,
+): Promise<void> {
+  const rows = page.locator('.table-row');
+  await page.goto(`${url}#/components`);
+  await rows.first().waitFor();
+  expect(await rows.count()).toBe(report.components.length);
+  // Blocked comes first.
+  expect(await rows.first().getAttribute('href')).toContain(
+    encodeURIComponent('src/pages/Home.vue'),
+  );
+
+  await page.getByRole('searchbox').fill('dialog');
+  await page.waitForFunction(() => globalThis.location.hash.includes('q=dialog'));
+  expect(await rows.count()).toBe(1);
+
+  await page.goto(`${url}#/rankings`);
+  await page.locator('.rank-row', { hasText: 'reka-ui/as-child' }).first().click();
+  await page.locator('.filter-note', { hasText: 'reka-ui/as-child' }).waitFor();
+  const withRule = report.components.filter(item =>
+    item.findings.some(entry => entry.rule === 'reka-ui/as-child'),
+  );
+  expect(await rows.count()).toBe(withRule.length);
+
+  await page.goto(`${url}#/component/${encodeURIComponent('src/pages/Home.vue')}`);
+  const probe = page.locator('.evidence a', { hasText: 'repros/reka-ui-as-child' }).first();
+  expect(await probe.getAttribute('href')).toBe(
+    'https://github.com/hamedniroomand/vaporfit/tree/main/repros/reka-ui-as-child',
+  );
 }
 
 async function readLayout(page: Page): Promise<void> {

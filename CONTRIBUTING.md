@@ -36,6 +36,29 @@ The command does not change `data/`, `test/fixtures/` or the reports in `docs/4.
 2. Run `vp check` and `vp test`.
 3. Change `verified.vue` only in the rows that the probes verified.
 
+## Work on the report page
+
+The page of `vaporfit ui` and `vaporfit report` is a Vue app in `ui/`. The CLI serves the build in `dist/ui`. Use two terminals.
+
+Terminal 1 builds the page:
+
+```sh
+vp run build
+vp run ui:watch
+```
+
+`vp run build` builds the CLI and the page one time. `ui:watch` builds the page again when you save a file in `ui/`. It only builds: it does not serve the page, so it prints no address.
+
+Terminal 2 serves the page:
+
+```sh
+node dist/cli/main.mjs ui --root test/fixtures/shadcn
+```
+
+This command prints the address, for example `The report is at http://localhost:9999.`, and opens it in the browser. After a save in `ui/`, reload the browser. The report data comes from the project in `--root`, and the page reads it again when a file of that project changes. A change in `src/` needs `vp run build` and a new start of the `ui` command.
+
+`test/ui/static-report.test.ts` opens the page in Chrome. `test/ui/view.test.ts` tests the helpers in `ui/src/view.ts`.
+
 ## Source layout
 
 Each folder in `src/` has one job. A folder imports only from the folders above it in this table. `test/layout.test.ts` checks this rule. The files in `src/` itself are the public entry and small shared helpers.

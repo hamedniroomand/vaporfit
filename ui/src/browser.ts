@@ -1,6 +1,6 @@
 interface BrowserPage {
   document: { documentElement: { dataset: { theme?: string } } };
-  location: { hash: string };
+  location: { hash: string; replace: (url: string) => void };
   localStorage: {
     getItem: (key: string) => string | null;
     setItem: (key: string, value: string) => void;
