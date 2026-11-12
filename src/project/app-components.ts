@@ -40,7 +40,9 @@ function isScript(name: string): boolean {
 
 function recordAppFile(file: string, scan: AppScan): void {
   const source = readText(file);
-  if (source === null) return;
+  // Parse only a file that can hold `x.component(`, `x?.component(` or `x\n  .component<T>(`.
+  // shortcut: a comment between the dot and the name hides the call, parse every file if a user needs it.
+  if (source === null || !/\.\s*component\b/u.test(source)) return;
   const blocks = file.endsWith('.vue') ? scriptBodies(source) : [source];
   const appFile: AppFile = { file, imports: [] };
   const programs: SyntaxNode[] = [];

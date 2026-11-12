@@ -159,3 +159,27 @@ createApp(App).component(name, Secret);
     expect(secret?.findings[0]?.message.toLowerCase()).not.toContain('safe');
   });
 });
+
+describe('app.component call forms', () => {
+  it('reads an app.component call on more lines, with ?. and a type argument', () => {
+    const root = writeProject({
+      'src/main.ts': `import { createApp } from 'vue';
+import { DialogTrigger } from 'reka-ui';
+import App from './App.vue';
+
+createApp(App)
+  ?.
+  component<typeof DialogTrigger>('DialogTrigger', DialogTrigger);
+`,
+      'src/App.vue': `<script setup></script>
+<template>
+  <DialogTrigger as-child />
+</template>
+`,
+    });
+    const app = getComponent(analyze(root), 'src/App.vue');
+
+    expect(app?.unresolved).toEqual([]);
+    expect(app?.findings.map(item => item.rule)).toContain('reka-ui/as-child');
+  });
+});

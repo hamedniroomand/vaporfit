@@ -80,7 +80,7 @@ function specifiers(source: string): string[] {
 }
 
 function registryTags(project: Project): RegistryTag[] {
-  const registries = readRegistries(project.root, project.compiler);
+  const registries = readRegistries(project);
   const tags: RegistryTag[] = [];
   for (const map of [registries.app, registries.nuxt, registries.unplugin]) {
     for (const [name, target] of map) {
