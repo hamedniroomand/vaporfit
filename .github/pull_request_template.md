@@ -8,7 +8,7 @@
 
 ## Checklist
 
-- [ ] `vp run ready` passes
+- [ ] `vp check`, `vp test` and `vp run build` pass
 - [ ] Tests cover the change
 - [ ] Docs updated, if behavior or options changed
 - [ ] Changeset added (`vp run changeset`), if users will notice
