@@ -183,3 +183,63 @@ createApp(App)
     expect(app?.findings.map(item => item.rule)).toContain('reka-ui/as-child');
   });
 });
+
+describe('imported prop types', () => {
+  it('reads a props type from a local file', () => {
+    const root = writeProject({
+      'src/types.ts': 'export interface Config { title: string }\n',
+      'src/Card.vue': `<script setup lang="ts">
+import type { Config } from './types';
+
+defineProps<Config & { note?: string }>();
+</script>
+<template><p>{{ title }} {{ note }}</p></template>
+`,
+    });
+    const card = getComponent(analyze(root), 'src/Card.vue');
+
+    expect(card?.findings.filter(item => item.level !== 'note')).toEqual([]);
+    expect(card?.interop).toBe('ready');
+  });
+
+  it('reads a changed props type again in a second run of the same process', () => {
+    const root = writeProject({
+      'src/types.ts': 'export interface Config { title: string }\n',
+      'src/Card.vue': `<script setup lang="ts">
+import type { Config } from './types';
+
+defineProps<Config>();
+</script>
+<template><p>{{ title }} {{ extra }}</p></template>
+`,
+    });
+    const before = getComponent(analyze(root), 'src/Card.vue');
+    writeFileSync(
+      path.join(root, 'src/types.ts'),
+      'export interface Config { title: string; extra: string }\n',
+    );
+    const after = getComponent(analyze(root), 'src/Card.vue');
+
+    expect(before?.interop).toBe('unknown');
+    expect(after?.findings.filter(item => item.level !== 'note')).toEqual([]);
+  });
+});
+
+describe('imported prop types in a folder', () => {
+  it('reads a props type from the index file of a folder', () => {
+    const root = writeProject({
+      'src/types/index.ts': 'export interface Config { title: string }\n',
+      'src/Card.vue': `<script setup lang="ts">
+import type { Config } from './types';
+
+defineProps<Config>();
+</script>
+<template><p>{{ title }}</p></template>
+`,
+    });
+    const card = getComponent(analyze(root), 'src/Card.vue');
+
+    expect(card?.findings.filter(item => item.level !== 'note')).toEqual([]);
+    expect(card?.interop).toBe('ready');
+  });
+});

@@ -1,15 +1,22 @@
-import { readFileSync } from 'node:fs';
+import { readFileSync, statSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import path from 'node:path';
 
 import type {
   CoreModule,
+  Descriptor,
   SfcModule,
   SharedModule,
   SourcePoint,
   TextDiagnostic,
   VaporModule,
 } from './vue-compiler.ts';
+
+/** File access for `compileScript`. Without it, a props type from another file is a compile error. */
+export interface TypeFiles {
+  fileExists: (file: string) => boolean;
+  readFile: (file: string) => string | undefined;
+}
 
 export function diagnosticText(error: unknown): TextDiagnostic {
   if (typeof error === 'string') return { column: 1, line: 1, message: error };
@@ -82,4 +89,47 @@ export function packageVersion(name: string): string {
 function located(message: string, error: object): TextDiagnostic {
   const loc = (error as { loc?: { start?: SourcePoint } }).loc?.start;
   return { column: loc?.column ?? 1, line: loc?.line ?? 1, message };
+}
+
+// The compiler tries `./types` before `./types/index.ts`, so a folder must not count as a file.
+// A stat error other than "not found" stops the compile and shows as a compile error.
+function isFile(file: string): boolean {
+  return statSync(file, { throwIfNoEntry: false })?.isFile() === true;
+}
+
+/** Compiles the script blocks. A compiler error becomes a diagnostic at the script block. */
+export function scriptResult(
+  sfc: SfcModule,
+  descriptor: Descriptor,
+  id: string,
+  vapor: boolean,
+): { bindings?: Record<string, string>; errors: TextDiagnostic[] } {
+  if (!descriptor.script && !descriptor.scriptSetup) return { errors: [] };
+  const read = new Set<string>();
+  const fs: TypeFiles = {
+    fileExists: isFile,
+    readFile: file => {
+      read.add(file);
+      return isFile(file) ? readFileSync(file, 'utf8') : undefined;
+    },
+  };
+  try {
+    const result = sfc.compileScript(descriptor, { fs, id, inlineTemplate: false, vapor });
+    return { bindings: result.bindings, errors: [] };
+  } catch (error) {
+    const block = descriptor.scriptSetup ?? descriptor.script;
+    const message = error instanceof Error ? error.message : 'The compiler failed.';
+    return {
+      errors: [
+        {
+          column: block?.loc.start.column ?? 1,
+          line: block?.loc.start.line ?? 1,
+          message,
+        },
+      ],
+    };
+  } finally {
+    // Vue keeps each type file in a cache for the process. The next run must read the file again.
+    for (const file of read) sfc.invalidateTypeCache?.(file);
+  }
 }

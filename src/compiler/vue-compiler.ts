@@ -12,7 +12,9 @@ import {
   packageVersion,
   probeOptionsMessage,
   readVueVersion,
+  scriptResult,
 } from './host.ts';
+import type { TypeFiles } from './host.ts';
 
 export interface SourcePoint {
   line: number;
@@ -41,7 +43,7 @@ interface TemplateNode {
   value?: { content: string; loc: { start: SourcePoint } } | null;
 }
 
-interface Descriptor {
+export interface Descriptor {
   vapor?: boolean;
   template: (ScriptBlock & { ast?: TemplateNode; content: string }) | null;
   script: ScriptBlock | null;
@@ -59,8 +61,9 @@ export interface SfcModule {
   };
   compileScript: (
     descriptor: Descriptor,
-    options: { id: string; vapor?: boolean; inlineTemplate?: boolean },
+    options: { id: string; vapor?: boolean; inlineTemplate?: boolean; fs?: TypeFiles },
   ) => { bindings?: Record<string, string> };
+  invalidateTypeCache?: (file: string) => void;
   compileTemplate: (options: {
     source: string;
     filename: string;
@@ -205,9 +208,9 @@ function compileFile(sfc: SfcModule, source: string, filename: string, id: strin
   const { descriptor } = parsed;
   const markedVapor = Boolean(descriptor.vapor);
   descriptor.vapor = false;
-  const baseline = compileScript(sfc, descriptor, id, false);
+  const baseline = scriptResult(sfc, descriptor, id, false);
   descriptor.vapor = markedVapor;
-  const vapor = compileScript(sfc, descriptor, id, true);
+  const vapor = scriptResult(sfc, descriptor, id, true);
   const bindings = vapor.bindings ?? baseline.bindings ?? {};
   const template = descriptor.template;
   const input = template ? { bindings, filename, id, template } : null;
@@ -227,31 +230,6 @@ function compileFile(sfc: SfcModule, source: string, filename: string, id: strin
     vaporErrors: [...vapor.errors, ...vaporTemplate.errors],
     vaporTips: vaporTemplate.tips,
   };
-}
-
-function compileScript(
-  sfc: SfcModule,
-  descriptor: Descriptor,
-  id: string,
-  vapor: boolean,
-): { bindings?: Record<string, string>; errors: TextDiagnostic[] } {
-  if (!descriptor.script && !descriptor.scriptSetup) return { errors: [] };
-  try {
-    const result = sfc.compileScript(descriptor, { id, inlineTemplate: false, vapor });
-    return { bindings: result.bindings, errors: [] };
-  } catch (error) {
-    const block = descriptor.scriptSetup ?? descriptor.script;
-    const message = error instanceof Error ? error.message : 'The compiler failed.';
-    return {
-      errors: [
-        {
-          column: block?.loc.start.column ?? 1,
-          line: block?.loc.start.line ?? 1,
-          message,
-        },
-      ],
-    };
-  }
 }
 
 interface TemplateInput {
