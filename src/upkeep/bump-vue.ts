@@ -177,7 +177,7 @@ async function assertPublished(version: string): Promise<void> {
   if (!response.ok) throw new VaporfitError(`npm returned ${response.status} for vue ${version}`);
 }
 
-function report(plan: BumpPlan): string {
+export function bumpReport(plan: BumpPlan): string {
   const lines = [
     `Vue ${plan.from} -> ${plan.to}`,
     `Changed ${plan.changed.length} files and ${plan.probes.length} probe lockfiles.`,
@@ -214,7 +214,7 @@ export async function runBumpVue(): Promise<void> {
     await eachSeries(plan.probes, async probe => {
       await run('vp', ['install', '--lockfile-only'], path.join(repoRoot, probe));
     });
-    process.stdout.write(report(plan));
+    process.stdout.write(bumpReport(plan));
   } catch (error) {
     const message = error instanceof Error ? error.message : 'the Vue bump failed';
     process.stderr.write(`${message}\n`);
