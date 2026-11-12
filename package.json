@@ -44,6 +44,7 @@
   },
   "scripts": {
     "build": "vp pack && vp build --config ui/vite.config.ts",
+    "bump-vue": "vpx ./scripts/bump-vue.ts",
     "changeset": "changeset",
     "changeset:version": "changeset version && vp fmt",
     "repros": "vpx ./repros/check.mjs",

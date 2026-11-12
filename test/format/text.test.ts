@@ -7,6 +7,7 @@ import { describe, expect, it, vi } from 'vite-plus/test';
 import { run } from '#cli/run.ts';
 import manifest from '#pkg' with { type: 'json' };
 import { captureIo } from '#test/capture.ts';
+import { newestDataDate } from '#test/pins.ts';
 
 const readySentence =
   '"ready" means that vaporfit found no known problem. It does not test behavior.';
@@ -20,8 +21,10 @@ describe('text report header', () => {
     const headerAt = text.indexOf(`vaporfit ${manifest.version}`);
     expect(pluginAt).toBeGreaterThanOrEqual(0);
     expect(headerAt).toBeGreaterThan(pluginAt);
-    expect(text).toContain('vue 3.5.45\ncompiler 3.6.0-rc.14 from vaporfit\n');
-    expect(text).toContain('data 2026-11-10');
+    expect(text).toContain(
+      `vue 3.5.45\ncompiler ${manifest.dependencies['@vue/compiler-sfc']} from vaporfit\n`,
+    );
+    expect(text).toContain(`data ${newestDataDate()}`);
     expect(text).toContain('components 1');
     expect(text).toContain('plugin not-installed');
     expect(text.split('Vue libraries with data:').length - 1).toBe(2);

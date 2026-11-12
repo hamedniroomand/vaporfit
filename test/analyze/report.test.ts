@@ -5,6 +5,7 @@ import { describe, expect, it } from 'vite-plus/test';
 
 import { analyze, getComponent, listComponents } from '#index.ts';
 import manifest from '#pkg' with { type: 'json' };
+import { newestDataDate, vuePin } from '#test/pins.ts';
 
 const repoRoot = path.join(import.meta.dirname, '../..');
 const objectRoot = path.join(repoRoot, 'repros/vue-object-directive');
@@ -26,10 +27,10 @@ describe('analyze report', () => {
     const use = positionOf(source, 'v-mark');
 
     expect(report.schemaVersion).toBe(0);
-    expect(report.tool).toEqual({ version: manifest.version, data: '2026-11-10' });
+    expect(report.tool).toEqual({ version: manifest.version, data: newestDataDate() });
     expect(report.project.root).toBe(path.resolve(objectRoot));
-    expect(report.project.vue).toBe('3.6.0-rc.14');
-    expect(report.project.compiler).toEqual({ source: 'project', version: '3.6.0-rc.14' });
+    expect(report.project.vue).toBe(vuePin(objectRoot));
+    expect(report.project.compiler).toEqual({ source: 'project', version: vuePin(objectRoot) });
     expect(report.project.interopPlugin).toMatchObject({ state: 'installed', level: null });
     expect(report.project.coverage.withData).toEqual(expect.any(Array));
     expect(report.project.coverage.withoutData).toEqual(expect.any(Array));

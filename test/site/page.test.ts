@@ -6,6 +6,7 @@ import { describe, expect, it } from 'vite-plus/test';
 import { buildDate } from '#data/freshness.ts';
 import { loadData } from '#data/load.ts';
 import { libraryPage, libraryRows, ruleRows } from '#site/table.ts';
+import { newestDataDate } from '#test/pins.ts';
 
 const dataDirectory = path.join(import.meta.dirname, '../../data');
 const STATUSES = ['works', 'partial', 'broken', 'unknown'];
@@ -99,8 +100,14 @@ describe('known broken column', () => {
 
 describe('current rows', () => {
   it('marks every current row stale only when today is more than 30 days later', () => {
-    const fresh = libraryRows(dataDirectory, '2026-11-10');
-    const stale = libraryRows(dataDirectory, '2026-12-11');
+    const dates = loadData(dataDirectory).libraries.map(library => library.verified.date);
+    const oldest = dates.toSorted()[0] ?? '';
+    const newest = Date.parse(`${newestDataDate()}T00:00:00.000Z`);
+    const fresh = libraryRows(dataDirectory, oldest);
+    const stale = libraryRows(
+      dataDirectory,
+      buildDate(new Date(newest + 31 * 24 * 60 * 60 * 1000)),
+    );
 
     expect(fresh.every(row => row.mark === null)).toBe(true);
     expect(stale.every(row => row.mark === 'stale')).toBe(true);
@@ -111,7 +118,11 @@ describe('current rows', () => {
 
     expect(page.builtOn).toBe(buildDate());
     expect(page.rows).toHaveLength(25);
-    expect(page.rows.every(row => row.date === '2026-11-10')).toBe(true);
+    expect(page.rows.map(row => row.date).toSorted()).toEqual(
+      loadData(dataDirectory)
+        .libraries.map(library => library.verified.date)
+        .toSorted(),
+    );
   });
 });
 
