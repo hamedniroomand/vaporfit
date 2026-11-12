@@ -52,13 +52,17 @@ function judge(walk: Walk, file: FileAnalysis): Verdict {
 
 function decide(walk: Walk, file: FileAnalysis): Verdict {
   const { report } = file;
+  // Nuxt blocks the pure tier for each component, so other pure causes are only noise.
+  if (walk.nuxt) {
+    report.findings = uniqueFindings([...report.findings, nuxtFinding(walk, file)]);
+    return 'blocked';
+  }
   const judgment: Judgment = {
-    blocked: report.interop === 'blocked' || walk.nuxt || file.awaitAt !== null,
+    blocked: report.interop === 'blocked' || file.awaitAt !== null,
     findings: [],
     unknown: report.interop === 'unknown' || report.unresolved.length > 0,
   };
   if (file.awaitAt !== null) judgment.findings.push(awaitFinding(walk, file));
-  if (walk.nuxt) judgment.findings.push(nuxtFinding(walk, file));
   for (const component of file.template.components) judgeChild(walk, file, component, judgment);
   const verdict = pureVerdict(judgment);
   if (verdict === 'ready' && !report.vapor) judgment.findings.push(convertFinding(walk, file));
