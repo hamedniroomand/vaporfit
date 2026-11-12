@@ -23,7 +23,7 @@ No tooltip. The console is empty.
 
 ## Versions
 
-- `vue` 3.6.0-rc.14
+- `vue` 3.6.0-rc.15
 - `primevue` 5.0.4
 - `@vitejs/plugin-vue` 6.0.10
 - `vite` 8.3.7

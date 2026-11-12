@@ -51,10 +51,10 @@
     "prepare": "vp config"
   },
   "dependencies": {
-    "@vue/compiler-core": "3.6.0-rc.14",
-    "@vue/compiler-sfc": "3.6.0-rc.14",
-    "@vue/compiler-vapor": "3.6.0-rc.14",
-    "@vue/shared": "3.6.0-rc.14",
+    "@vue/compiler-core": "3.6.0-rc.15",
+    "@vue/compiler-sfc": "3.6.0-rc.15",
+    "@vue/compiler-vapor": "3.6.0-rc.15",
+    "@vue/shared": "3.6.0-rc.15",
     "oxc-parser": "^0.158.0"
   },
   "devDependencies": {

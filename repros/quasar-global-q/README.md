@@ -23,7 +23,7 @@ The element is missing. The console reports `TypeError: Cannot read properties o
 
 ## Versions
 
-- `vue` 3.6.0-rc.14
+- `vue` 3.6.0-rc.15
 - `quasar` 2.35.3
 - `@vitejs/plugin-vue` 6.0.10
 - `vite` 8.3.7

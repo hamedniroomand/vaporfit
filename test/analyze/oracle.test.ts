@@ -10,7 +10,6 @@ import { vuePin } from '#test/pins.ts';
 const repoRoot = path.join(import.meta.dirname, '../..');
 
 const blocked: { project: string; rule: string; token: string }[] = [
-  { project: 'repros/reka-ui-as-child', rule: 'reka-ui/as-child', token: 'as-child' },
   { project: 'repros/vue-object-directive', rule: 'vapor/object-directive', token: 'v-mark' },
   { project: 'repros/element-plus-v-loading', rule: 'element-plus/v-loading', token: 'v-loading' },
   {
@@ -21,7 +20,6 @@ const blocked: { project: string; rule: string; token: string }[] = [
   { project: 'repros/floating-vue-v-tooltip', rule: 'floating-vue/v-tooltip', token: 'v-tooltip' },
   { project: 'repros/primevue-v-tooltip', rule: 'primevue/v-tooltip', token: 'v-tooltip' },
   { project: 'repros/vue-i18n-v-t', rule: 'vue-i18n/v-t', token: 'v-t' },
-  { project: 'repros/reka-ui-dropdown-menu-trigger', rule: 'reka-ui/as-child', token: 'as-child' },
   { project: 'repros/vue-i18n-global-t', rule: 'vue-i18n/global-properties', token: '$t' },
   {
     project: 'repros/vue-router-global-route',
@@ -30,7 +28,28 @@ const blocked: { project: string; rule: string; token: string }[] = [
   },
 ];
 
-const ready = ['repros/reka-ui-dialog', 'repros/primevue-button', 'repros/element-plus-components'];
+// The as-child probes pin a Vue version that has the fix, so the as-child rules give no finding.
+const asChildFixed = [
+  'repros/radix-vue-as-child',
+  'repros/reka-ui-alert-dialog-trigger',
+  'repros/reka-ui-as-child',
+  'repros/reka-ui-as-child-wrapper',
+  'repros/reka-ui-collapsible-trigger',
+  'repros/reka-ui-context-menu-trigger',
+  'repros/reka-ui-dialog-close',
+  'repros/reka-ui-dropdown-menu-trigger',
+  'repros/reka-ui-hover-card-trigger',
+  'repros/reka-ui-popover-trigger',
+  'repros/reka-ui-tabs-trigger',
+  'repros/reka-ui-tooltip-trigger',
+];
+
+const ready = [
+  'repros/reka-ui-dialog',
+  'repros/primevue-button',
+  'repros/element-plus-components',
+  ...asChildFixed,
+];
 
 for (const item of blocked) {
   it(`${item.project} is blocked`, () => {

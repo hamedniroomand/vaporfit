@@ -23,7 +23,7 @@ The Vapor component throws `Cannot read properties of undefined (reading 'path')
 
 ## Versions
 
-- `vue` 3.6.0-rc.14
+- `vue` 3.6.0-rc.15
 - `vue-router` 5.4.0
 - `@vitejs/plugin-vue` 6.0.10
 - `vite` 8.3.7

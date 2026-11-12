@@ -4,8 +4,8 @@
   "repository": "https://github.com/unovue/radix-vue",
   "verified": {
     "version": "1.9.17",
-    "vue": "3.6.0-rc.14",
-    "date": "2026-11-10"
+    "vue": "3.6.0-rc.15",
+    "date": "2026-11-12"
   },
   "declared": null,
   "interop": {
@@ -31,9 +31,14 @@
           "environment": "vite build, Chrome 156",
           "probe": "repros/radix-vue-as-child",
           "what": "DialogTrigger as-child"
+        },
+        {
+          "level": "source",
+          "url": "https://github.com/vuejs/core/blob/v3.6.0-rc.15/CHANGELOG.md"
         }
       ],
-      "fixedIn": null
+      "fixedIn": null,
+      "fixedInVue": "3.6.0-rc.15"
     }
   ]
 }

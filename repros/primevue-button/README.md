@@ -23,7 +23,7 @@ The Vapor component counts the click the same way as the VDOM component.
 
 ## Versions
 
-- `vue` 3.6.0-rc.14
+- `vue` 3.6.0-rc.15
 - `primevue` 5.0.4
 - `@vitejs/plugin-vue` 6.0.10
 - `vite` 8.3.7

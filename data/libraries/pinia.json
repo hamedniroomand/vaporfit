@@ -4,8 +4,8 @@
   "repository": "https://github.com/vuejs/pinia",
   "verified": {
     "version": "4.1.0",
-    "vue": "3.6.0-rc.14",
-    "date": "2026-11-10"
+    "vue": "3.6.0-rc.15",
+    "date": "2026-11-12"
   },
   "declared": null,
   "interop": {

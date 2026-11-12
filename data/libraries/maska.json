@@ -4,8 +4,8 @@
   "repository": "https://github.com/beholdr/maska",
   "verified": {
     "version": "3.2.2",
-    "vue": "3.6.0-rc.14",
-    "date": "2026-11-10"
+    "vue": "3.6.0-rc.15",
+    "date": "2026-11-12"
   },
   "declared": null,
   "interop": {

@@ -24,7 +24,7 @@ The Vapor component does the same work as the VDOM component.
 
 ## Versions
 
-- `vue` 3.6.0-rc.14
+- `vue` 3.6.0-rc.15
 - `element-plus` 2.14.8
 - `@vitejs/plugin-vue` 6.0.10
 - `vite` 8.3.7

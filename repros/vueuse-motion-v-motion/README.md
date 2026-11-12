@@ -24,7 +24,7 @@ The paragraph stays at opacity `1`. The console has no message from the directiv
 
 ## Versions
 
-- `vue` 3.6.0-rc.14
+- `vue` 3.6.0-rc.15
 - `@vueuse/motion` 3.0.3
 - `@vitejs/plugin-vue` 6.0.10
 - `vite` 8.3.7

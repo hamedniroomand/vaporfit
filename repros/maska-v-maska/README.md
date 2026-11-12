@@ -23,7 +23,7 @@ Both inputs stay `12`. `data-maska` throws `TypeError: Cannot read properties of
 
 ## Versions
 
-- `vue` 3.6.0-rc.14
+- `vue` 3.6.0-rc.15
 - `maska` 3.2.2
 - `@vitejs/plugin-vue` 6.0.10
 - `vite` 8.3.7

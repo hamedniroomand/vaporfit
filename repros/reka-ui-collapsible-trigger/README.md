@@ -20,11 +20,13 @@ A click opens the content.
 
 ## Actual
 
-The button gets no attributes and no listener. A click does nothing. The console is empty.
+With `vue` 3.6.0-rc.15 and later, the Vapor component gives the same result as the VDOM component.
+
+With `vue` 3.6.0-rc.14 and older, the result is different. The button gets no attributes and no listener. A click does nothing. The console is empty.
 
 ## Versions
 
-- `vue` 3.6.0-rc.14
+- `vue` 3.6.0-rc.15
 - `reka-ui` 2.11.0
 - `@vitejs/plugin-vue` 6.0.10
 - `vite` 8.3.7

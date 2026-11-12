@@ -23,7 +23,7 @@ The Vapor component changes locale the same way as the VDOM component.
 
 ## Versions
 
-- `vue` 3.6.0-rc.14
+- `vue` 3.6.0-rc.15
 - `vue-i18n` 11.4.18
 - `@vitejs/plugin-vue` 6.0.10
 - `vite` 8.3.7
