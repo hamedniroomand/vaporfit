@@ -70,15 +70,18 @@ The two fields use the same values as `interop.status` and `interop.evidence`.
 
 ### Feature
 
-| Field        | Content                                                     |
-| ------------ | ----------------------------------------------------------- |
-| `id`         | A string.                                                   |
-| `status`     | `works`, `partial`, `broken`, or `unknown`.                 |
-| `failure`    | `compile`, `runtime-error`, `silent`, or `none`.            |
-| `message`    | A string.                                                   |
-| `evidence`   | A list of evidence objects.                                 |
-| `fixedIn`    | A string or `null`. `null` means that no version has a fix. |
-| `match.kind` | `directive`, `globalProperty`, `prop`, or `import`.         |
+| Field        | Content                                                                            |
+| ------------ | ---------------------------------------------------------------------------------- |
+| `id`         | A string.                                                                          |
+| `status`     | `works`, `partial`, `broken`, or `unknown`.                                        |
+| `failure`    | `compile`, `runtime-error`, `silent`, or `none`.                                   |
+| `message`    | A string.                                                                          |
+| `evidence`   | A list of evidence objects.                                                        |
+| `fixedIn`    | A string or `null`. `null` means that no version has a fix.                        |
+| `fixedInVue` | Optional. The first Vue version that fixes the feature, for example `3.6.0-rc.15`. |
+| `match.kind` | `directive`, `globalProperty`, `prop`, or `import`.                                |
+
+A feature with `fixedInVue` keeps its `status` for the Vue versions before the fix. Its probes pin a Vue version with the fix, so they expect `works`.
 
 `directive` has the fields `name`, `export`, and `from`.
 `name` is a string.

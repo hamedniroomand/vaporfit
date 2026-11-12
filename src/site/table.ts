@@ -17,6 +17,7 @@ export interface BrokenCell {
   id: string;
   failure: Failure;
   issues: string[];
+  fixedInVue: string | null;
 }
 
 export type DeclaredCell =
@@ -83,7 +84,12 @@ function brokenCells(library: Library): BrokenCell[] {
         issues.push(entry.url);
       }
     }
-    cells.push({ id: feature.id, failure: feature.failure, issues });
+    cells.push({
+      id: feature.id,
+      failure: feature.failure,
+      issues,
+      fixedInVue: feature.fixedInVue ?? null,
+    });
   }
   return cells;
 }

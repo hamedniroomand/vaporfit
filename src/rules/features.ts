@@ -5,7 +5,7 @@ import type { Project } from '#project/project.ts';
 import type { Level, PackageCause } from '#report/types.ts';
 import { compareVersions } from '#semver.ts';
 
-import { versionNote } from './messages.ts';
+import { versionNote, vueFixNote } from './messages.ts';
 
 export interface FeatureHit {
   feature: Feature;
@@ -142,24 +142,49 @@ export function globalPropertyHits(
   return hits;
 }
 
-/** A `works` fact gives no finding only when the installed version is readable and not newer. */
+/** The installed versions that decide a feature finding. Null means that the tool cannot read it. */
+export interface InstalledVersions {
+  library: string | null;
+  vue: string | null;
+}
+
+/** Data messages have no final period. A note after the message needs one. */
+function withNotes(message: string, notes: string): string {
+  if (notes === '') return message;
+  return /[.!?]$/u.test(message) ? `${message}${notes}` : `${message}.${notes}`;
+}
+
+/** True when the Vue of the project is readable and has the fix of the feature. */
+function hasVueFix(feature: Feature, vue: string | null): boolean {
+  if (feature.fixedInVue === undefined || vue === null) return false;
+  const order = compareVersions(vue, feature.fixedInVue);
+  return order !== null && order >= 0;
+}
+
+/**
+ * A `works` fact gives no finding only when the installed version is readable and not newer.
+ * A feature with `fixedInVue` gives no finding when the Vue of the project has the fix.
+ */
 export function decideFeature(
   hit: FeatureHit,
-  version: string | null,
+  installed: InstalledVersions,
   file: string,
 ): FeatureDecision | null {
   const { feature, library } = hit;
+  const version = installed.library;
+  if (hasVueFix(feature, installed.vue)) return null;
   const compared = version === null ? null : compareVersions(version, library.verified.version);
   const newer = compared === 1;
   if (feature.status === 'works' && compared !== null && !newer) return null;
   const level: Level = feature.status === 'broken' ? 'error' : 'unknown';
+  const fix = feature.fixedInVue === undefined ? '' : vueFixNote(feature.fixedInVue);
   const note = newer && version !== null ? versionNote(library.verified.version, version) : '';
   return {
     chain: [file, library.package],
     evidence: feature.evidence,
     failure: feature.failure,
     level,
-    message: `${feature.message}${note}`,
+    message: withNotes(feature.message, `${fix}${note}`),
     package: { name: library.package, verified: library.verified.version, version },
     rule: feature.id,
   };

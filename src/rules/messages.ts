@@ -51,6 +51,10 @@ export function unreadDirective(name: string, reason: 'data' | 'file' | 'value')
   return `The tool cannot read the directive ${directive}.`;
 }
 
+export function vueFixNote(fixedInVue: string): string {
+  return ` Vue ${fixedInVue} fixes this.`;
+}
+
 export function versionNote(verified: string, installed: string): string {
   return ` The data was verified for version ${verified}. The project has version ${installed}.`;
 }

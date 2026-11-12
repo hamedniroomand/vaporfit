@@ -51,6 +51,11 @@ export interface Feature {
   message: string;
   evidence: Evidence[];
   fixedIn: string | null;
+  /**
+   * Optional. The first Vue version that fixes the feature. A project with this Vue version
+   * or a later one gets no finding. A project with an unknown Vue version keeps the finding.
+   */
+  fixedInVue?: string;
 }
 
 export interface Library {

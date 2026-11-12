@@ -46,7 +46,9 @@ describe('libraryMarkdown', () => {
               id: 'pkg/v-x',
               failure: 'silent',
               issues: ['https://github.com/owner/repo/issues/12'],
+              fixedInVue: null,
             },
+            { id: 'pkg/as-child', failure: 'silent', issues: [], fixedInVue: '3.6.0-rc.15' },
           ],
         }),
       ],
@@ -60,7 +62,7 @@ describe('libraryMarkdown', () => {
     );
     expect(line).toContain('| D1, vite build, Chrome 156 |');
     expect(line).toContain(
-      '| `pkg/v-x`<br>Failure: silent<br>[owner/repo 12](https://github.com/owner/repo/issues/12) |',
+      '| `pkg/v-x`<br>Failure: silent<br>[owner/repo 12](https://github.com/owner/repo/issues/12)<br><br>`pkg/as-child`<br>Failure: silent<br>Fixed in Vue 3.6.0-rc.15 |',
     );
     expect(line).toContain('| 2026-11-10 stale |');
   });

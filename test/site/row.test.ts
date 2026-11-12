@@ -147,24 +147,13 @@ describe('broken cell', () => {
         id: 'pkg/broken',
         failure: 'silent',
         issues: ['https://example.com/one', 'https://example.com/two'],
+        fixedInVue: null,
       },
     ]);
     expect(JSON.stringify(row.broken)).not.toContain('pkg/works');
     expect(JSON.stringify(row.broken)).not.toContain('pkg/partial');
     expect(JSON.stringify(row.broken)).not.toContain('pkg/unknown');
     expect(JSON.stringify(row)).not.toContain('"status"');
-  });
-
-  it('shows a broken feature that has no issue link', () => {
-    const row = toLibraryRow(
-      library({
-        features: [feature('pkg/broken', 'broken', 'runtime-error', [])],
-      }),
-      'pkg.json',
-      '2026-11-10',
-    );
-
-    expect(row.broken).toEqual([{ id: 'pkg/broken', failure: 'runtime-error', issues: [] }]);
   });
 });
 
@@ -180,5 +169,30 @@ describe('row age and edit link', () => {
     expect(fresh.version).toBe('1.2.3');
     expect(fresh.date).toBe('2026-11-10');
     expect(fresh.editUrl).toBe(`${REPO}/pkg.json`);
+  });
+});
+
+describe('broken cell fields', () => {
+  it('shows a broken feature that has no issue link', () => {
+    const row = toLibraryRow(
+      library({
+        features: [feature('pkg/broken', 'broken', 'runtime-error', [])],
+      }),
+      'pkg.json',
+      '2026-11-10',
+    );
+
+    expect(row.broken).toEqual([
+      { id: 'pkg/broken', failure: 'runtime-error', issues: [], fixedInVue: null },
+    ]);
+  });
+
+  it('gives the Vue version that fixes a broken feature', () => {
+    const fixed = { ...feature('pkg/broken', 'broken', 'silent', []), fixedInVue: '3.6.0-rc.15' };
+    const row = toLibraryRow(library({ features: [fixed] }), 'pkg.json', '2026-11-10');
+
+    expect(row.broken).toEqual([
+      { id: 'pkg/broken', failure: 'silent', issues: [], fixedInVue: '3.6.0-rc.15' },
+    ]);
   });
 });

@@ -200,3 +200,26 @@ describe('loadData declared scope', () => {
     expect(() => loadData(copy)).toThrow('"declared.scope"');
   });
 });
+
+describe('loadData fixedInVue', () => {
+  it('rejects a fixedInVue that is not one exact version', () => {
+    for (const bad of [15, '^3.6.0-rc.15', '3.6', null]) {
+      const copy = copyWith('libraries/element-plus.json', value => {
+        const features = value.features as Record<string, unknown>[];
+        for (const feature of features) feature.fixedInVue = bad;
+      });
+
+      expect(() => loadData(copy)).toThrow('"features[].fixedInVue"');
+    }
+  });
+
+  it('reads a feature with a fixedInVue version', () => {
+    const copy = copyWith('libraries/element-plus.json', value => {
+      const features = value.features as Record<string, unknown>[];
+      for (const feature of features) feature.fixedInVue = '3.6.0-rc.15';
+    });
+    const library = loadData(copy).libraries.find(item => item.package === 'element-plus');
+
+    expect(library?.features[0]?.fixedInVue).toBe('3.6.0-rc.15');
+  });
+});
