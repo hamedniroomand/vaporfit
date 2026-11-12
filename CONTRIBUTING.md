@@ -20,6 +20,22 @@ Point the `tested` evidence `probe` field at the folder, for example `repros/my-
 vpx ./repros/check.mjs my-library-case
 ```
 
+## Change the Vue version
+
+One command changes the Vue version in all the places that must agree:
+
+```sh
+vp run bump-vue 3.6.0-rc.16
+```
+
+It changes the `@vue/*` pins of the tool, the `vue` pin of each probe, the version line of each probe README, the `vue` line of the sample report in `README.md`, and the lockfiles. A probe that pins a different Vue version stays the same, and the command lists it.
+
+The command does not change `data/`, `test/fixtures/` or the reports in `docs/4.upstream/`. Those files record the Vue version of a test. After the bump:
+
+1. Run `vp run repros`. A probe that gives a different result needs a person. Do not change `expected` only to make the run pass.
+2. Run `vp check` and `vp test`.
+3. Change `verified.vue` only in the rows that the probes verified.
+
 ## Source layout
 
 Each folder in `src/` has one job. A folder imports only from the folders above it in this table. `test/layout.test.ts` checks this rule. The files in `src/` itself are the public entry and small shared helpers.

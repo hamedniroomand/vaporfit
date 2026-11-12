@@ -5,6 +5,8 @@ import path from 'node:path';
 import { describe, expect, it } from 'vite-plus/test';
 
 import { run } from '#cli/run.ts';
+import { applyFix } from '#fix/fix.ts';
+import { analyze } from '#index.ts';
 import { captureIo } from '#test/capture.ts';
 
 const ready = `<script setup>
@@ -127,6 +129,20 @@ describe('fix', () => {
     expect(read(root, 'src/Memo.vue')).toBe(memo);
     expect(io.output()).toContain('src/Ready.vue');
     expect(io.output()).toContain('does not write');
+  });
+});
+
+describe('fix and a script tag that does not close', () => {
+  it('adds a new script tag', () => {
+    const root = writeProject(true);
+    const report = analyze(root);
+    writeFileSync(
+      path.join(root, 'src/Ready.vue'),
+      '<script setup title="open\n<template><p>ok</p></template>\n',
+    );
+    applyFix(root, report, { i18n: false, router: false, write: true });
+
+    expect(read(root, 'src/Ready.vue').startsWith('<script setup vapor></script>\n')).toBe(true);
   });
 });
 

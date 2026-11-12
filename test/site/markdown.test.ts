@@ -66,6 +66,29 @@ describe('libraryMarkdown', () => {
   });
 });
 
+describe('libraryMarkdown statement', () => {
+  it('omits the first version when the statement has none', () => {
+    const line = libraryMarkdown({
+      builtOn: '2026-11-11',
+      rows: [
+        row({
+          declared: {
+            kind: 'statement',
+            scope: 'full',
+            since: null,
+            url: 'https://example.com/note',
+          },
+        }),
+      ],
+    })
+      .split('\n')
+      .at(-1);
+
+    expect(line).toContain('Scope: full<br>[example.com/note](https://example.com/note)');
+    expect(line).not.toContain('First version');
+  });
+});
+
 describe('ruleMarkdown', () => {
   it('escapes the characters that end a cell or start an HTML tag', () => {
     const line = ruleMarkdown([

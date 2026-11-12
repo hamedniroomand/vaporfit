@@ -5,6 +5,7 @@ import { expect, it } from 'vite-plus/test';
 
 import { analyze, getComponent } from '#index.ts';
 import type { Finding } from '#index.ts';
+import { vuePin } from '#test/pins.ts';
 
 const repoRoot = path.join(import.meta.dirname, '../..');
 
@@ -39,7 +40,10 @@ for (const item of blocked) {
     expect(component?.interop).toBe('blocked');
     expect(finding?.level).toBe('error');
     expect(tokenAt(item.project, finding, item.token.length)).toBe(item.token);
-    expect(report.project.compiler).toEqual({ source: 'project', version: '3.6.0-rc.14' });
+    expect(report.project.compiler).toEqual({
+      source: 'project',
+      version: vuePin(path.join(repoRoot, item.project)),
+    });
   });
 }
 
@@ -54,7 +58,7 @@ for (const project of ready) {
         finding => finding.level === 'error' && finding.rule !== 'vapor/vdom-component',
       ),
     ).toEqual([]);
-    expect(report.project.vue).toBe('3.6.0-rc.14');
+    expect(report.project.vue).toBe(vuePin(path.join(repoRoot, project)));
   });
 }
 
