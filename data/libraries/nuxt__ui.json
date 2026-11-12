@@ -22,7 +22,7 @@
       },
       "status": "unknown",
       "failure": "silent",
-      "message": "A maintainer reports that components with an as-child trigger are broken in a Vapor component. Not tested",
+      "message": "A maintainer reports that components with an as-child trigger are broken in a Vapor component. Reka UI as-child had the same problem with Vue 3.6.0-rc.14 and older, and Vue 3.6.0-rc.15 fixes it there. Not tested with Nuxt UI",
       "evidence": [
         {
           "level": "issue",

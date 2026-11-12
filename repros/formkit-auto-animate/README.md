@@ -23,7 +23,7 @@ The list renders. The directive does not attach. The console has no message from
 
 ## Versions
 
-- `vue` 3.6.0-rc.14
+- `vue` 3.6.0-rc.15
 - `@formkit/auto-animate` 0.10.2
 - `@vitejs/plugin-vue` 6.0.10
 - `vite` 8.3.7

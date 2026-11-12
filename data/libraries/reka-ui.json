@@ -4,8 +4,8 @@
   "repository": "https://github.com/unovue/reka-ui",
   "verified": {
     "version": "2.11.0",
-    "vue": "3.6.0-rc.14",
-    "date": "2026-11-10"
+    "vue": "3.6.0-rc.15",
+    "date": "2026-11-12"
   },
   "declared": null,
   "interop": {
@@ -106,6 +106,13 @@
           "what": "DialogClose as-child"
         },
         {
+          "level": "tested",
+          "depth": "D1",
+          "environment": "vite build, Chrome 156",
+          "probe": "repros/reka-ui-as-child-wrapper",
+          "what": "DialogTrigger as-child through a VDOM wrapper"
+        },
+        {
           "level": "issue",
           "url": "https://github.com/unovue/shadcn-vue/issues/2006",
           "state": "open"
@@ -114,9 +121,14 @@
           "level": "issue",
           "url": "https://github.com/nuxt/ui/issues/6395",
           "state": "open"
+        },
+        {
+          "level": "source",
+          "url": "https://github.com/vuejs/core/blob/v3.6.0-rc.15/CHANGELOG.md"
         }
       ],
-      "fixedIn": null
+      "fixedIn": null,
+      "fixedInVue": "3.6.0-rc.15"
     },
     {
       "id": "reka-ui/as-child-other",
@@ -127,15 +139,27 @@
       },
       "status": "unknown",
       "failure": "silent",
-      "message": "as-child is confirmed broken on DialogTrigger. This component is not tested and the cause is probably the same",
+      "message": "as-child is confirmed broken on DialogTrigger, TabsTrigger and other trigger components. This component is not tested and the cause is probably the same",
       "evidence": [
+        {
+          "level": "tested",
+          "depth": "D1",
+          "environment": "vite build, Chrome 156",
+          "probe": "repros/reka-ui-tabs-trigger",
+          "what": "TabsTrigger as-child"
+        },
         {
           "level": "issue",
           "url": "https://github.com/nuxt/ui/issues/6395",
           "state": "open"
+        },
+        {
+          "level": "source",
+          "url": "https://github.com/vuejs/core/blob/v3.6.0-rc.15/CHANGELOG.md"
         }
       ],
-      "fixedIn": null
+      "fixedIn": null,
+      "fixedInVue": "3.6.0-rc.15"
     },
     {
       "id": "reka-ui/forward-props",

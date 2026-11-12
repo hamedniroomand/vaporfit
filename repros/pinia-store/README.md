@@ -25,7 +25,7 @@ The Vapor component updates the store the same way as the VDOM component.
 
 ## Versions
 
-- `vue` 3.6.0-rc.14
+- `vue` 3.6.0-rc.15
 - `pinia` 4.1.0
 - `@vitejs/plugin-vue` 6.0.10
 - `vite` 8.3.7

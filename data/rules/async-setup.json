@@ -7,8 +7,8 @@
   "detection": "static",
   "fix": null,
   "verified": {
-    "vue": "3.6.0-rc.14",
-    "date": "2026-11-11"
+    "vue": "3.6.0-rc.15",
+    "date": "2026-11-12"
   },
   "sources": [
     "https://github.com/vuejs/core/releases/tag/v3.6.0-rc.14",

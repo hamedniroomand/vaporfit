@@ -4,8 +4,8 @@
   "repository": "https://github.com/vuejs/router",
   "verified": {
     "version": "5.4.0",
-    "vue": "3.6.0-rc.14",
-    "date": "2026-11-10"
+    "vue": "3.6.0-rc.15",
+    "date": "2026-11-12"
   },
   "declared": null,
   "interop": {
@@ -40,7 +40,7 @@
         },
         {
           "level": "source",
-          "url": "https://github.com/vuejs/core/blob/v3.6.0-rc.14/packages/runtime-vapor/src/component.ts#L880"
+          "url": "https://github.com/vuejs/core/blob/v3.6.0-rc.15/packages/runtime-vapor/src/component.ts#L908"
         }
       ],
       "fixedIn": null

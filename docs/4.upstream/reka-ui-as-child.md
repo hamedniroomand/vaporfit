@@ -1,10 +1,14 @@
 ---
 navigation:
   title: 'Reka UI: as-child'
-description: 'A report for Reka UI. With `as-child`, the Vapor button has no attributes and no listener, and there is no Vue warning.'
+description: 'A report for Reka UI. With `as-child` and Vue 3.6.0-rc.14, the Vapor button has no attributes and no listener, and there is no Vue warning. Vue 3.6.0-rc.15 fixes it.'
 ---
 
 # Reka UI: `as-child` does nothing in a Vapor component
+
+::: tip Fixed in Vue 3.6.0-rc.15
+On 2026-11-12, the probe gives the same result in the Vapor component and in the VDOM component with `vue` 3.6.0-rc.15. Reka UI did not change: the version is 2.11.0 in the two runs. Do not send this report. The rest of the page is the report as it was for `vue` 3.6.0-rc.14.
+:::
 
 Tracker search on 2026-11-10: no open `unovue/reka-ui` issue describes `as-child` in a Vapor component. The open Vapor issue there is about bundle size, not this behavior: https://github.com/unovue/reka-ui/issues/3018. The same symptom is already open in other repositories: https://github.com/nuxt/ui/issues/6395 and https://github.com/unovue/shadcn-vue/issues/2006. This draft is a new report for Reka UI.
 
@@ -41,8 +45,10 @@ The Vapor button has no attributes and no listener. A click does nothing. The co
 
 ## Cause
 
-The cause is in Reka UI `Slot`, not in a Vue warning. `Slot` merges props and then copies the child vnode:
+The report said that the cause is in Reka UI `Slot`. The fix came from Vue: with the same Reka UI version, Vue 3.6.0-rc.15 makes the probe pass. The [rc.15 changelog](https://github.com/vuejs/core/blob/v3.6.0-rc.15/CHANGELOG.md) has fixes for this path. The likely fix is "fall through cloneVNode extras to the content of a forwarded vapor slot" ([vuejs/core#16219](https://github.com/vuejs/core/pull/16219)). The probe was not run on each commit, so this is not proved.
+
+`Slot` merges props and then copies the child vnode:
 
 https://github.com/unovue/reka-ui/blob/v2.11.0/packages/core/src/Primitive/Slot.ts#L29
 
-Line 29 at tag `v2.11.0` is `const cloned = cloneVNode({ ...firstNonCommentChildren, props: {} }, mergedProps)`. Lines 26 to 28 build `mergedProps` with `mergeProps`. That path uses VDOM vnodes. The probe shows that a Vapor child does not receive the attributes or the listener.
+Line 29 at tag `v2.11.0` is `const cloned = cloneVNode({ ...firstNonCommentChildren, props: {} }, mergedProps)`. Lines 26 to 28 build `mergedProps` with `mergeProps`. That path uses VDOM vnodes. With Vue 3.6.0-rc.14, the probe shows that a Vapor child does not receive the attributes or the listener.

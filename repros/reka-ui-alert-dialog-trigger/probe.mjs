@@ -13,4 +13,5 @@ export async function check(page, side) {
   return { aria, opened }
 }
 
-export const expected = 'breaks'
+// Vue 3.6.0-rc.15 fixes as-child in a Vapor component. With Vue 3.6.0-rc.14 the result is 'breaks'.
+export const expected = 'works'

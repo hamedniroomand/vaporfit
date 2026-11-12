@@ -178,8 +178,9 @@
           </p>
           <p class="mt-2 mb-0">
             The VDOM button has <code>aria-haspopup="dialog"</code>, and a click opens the dialog.
-            The Vapor button has no attributes and no listener. A click does nothing. The console is
-            empty. There is no Vue warning.
+            With Vue 3.6.0-rc.14 or older, the Vapor button has no attributes and no listener. A
+            click does nothing. The console is empty. There is no Vue warning. Vue 3.6.0-rc.15 fixes
+            this, and vaporfit names that version in the finding.
             <a
               href="/upstream/reka-ui-as-child"
               class="text-brand underline underline-offset-4"

@@ -19,11 +19,11 @@ Each report has these sections:
 A probe has a Vapor component and a VDOM component.
 The only difference is the `vapor` attribute.
 
-| Report                                                           | Library      |
-| ---------------------------------------------------------------- | ------------ |
-| [`v-loading` does nothing](/upstream/element-plus-v-loading)     | Element Plus |
-| [`v-tooltip` does nothing](/upstream/floating-vue-v-tooltip)     | floating-vue |
-| [`v-tooltip` does nothing](/upstream/primevue-v-tooltip)         | PrimeVue     |
-| [`as-child` does nothing](/upstream/reka-ui-as-child)            | Reka UI      |
-| [`v-t` renders nothing](/upstream/vue-i18n-v-t)                  | vue-i18n     |
-| [An object directive is skipped](/upstream/vue-object-directive) | Vue          |
+| Report                                                                          | Library      |
+| ------------------------------------------------------------------------------- | ------------ |
+| [`v-loading` does nothing](/upstream/element-plus-v-loading)                    | Element Plus |
+| [`v-tooltip` does nothing](/upstream/floating-vue-v-tooltip)                    | floating-vue |
+| [`v-tooltip` does nothing](/upstream/primevue-v-tooltip)                        | PrimeVue     |
+| [`as-child` does nothing, fixed in Vue 3.6.0-rc.15](/upstream/reka-ui-as-child) | Reka UI      |
+| [`v-t` renders nothing](/upstream/vue-i18n-v-t)                                 | vue-i18n     |
+| [An object directive is skipped](/upstream/vue-object-directive)                | Vue          |

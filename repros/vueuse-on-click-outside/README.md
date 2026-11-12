@@ -23,7 +23,7 @@ The count stays 0. The console is empty.
 
 ## Versions
 
-- `vue` 3.6.0-rc.14
+- `vue` 3.6.0-rc.15
 - `@vueuse/components` 15.0.0
 - `@vueuse/core` 15.0.0
 - `@vitejs/plugin-vue` 6.0.10

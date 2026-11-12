@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  // Two buttons that show the result of the probe `repros/reka-ui-as-child`.
+  // Two buttons that show the result of the probe `repros/reka-ui-as-child` with Vue 3.6.0-rc.14.
   import { ref, watch } from 'vue';
 
   import { useReveal } from '../reveal';

@@ -29,6 +29,6 @@ The page error is `Cannot read properties of null (reading 'anchor')`.
 
 ## Versions
 
-- `vue` 3.6.0-rc.14
+- `vue` 3.6.0-rc.15
 - `@vitejs/plugin-vue` 6.0.10
 - `vite` 8.3.7

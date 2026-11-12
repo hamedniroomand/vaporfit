@@ -4,8 +4,8 @@
   "repository": "https://github.com/element-plus/element-plus",
   "verified": {
     "version": "2.14.8",
-    "vue": "3.6.0-rc.14",
-    "date": "2026-11-10"
+    "vue": "3.6.0-rc.15",
+    "date": "2026-11-12"
   },
   "declared": null,
   "interop": {
