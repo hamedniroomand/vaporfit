@@ -1,6 +1,6 @@
 {
   "name": "vaporfit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Before you add `vapor` to a Vue component, see what will silently break.",
   "keywords": [
     "vapor",
