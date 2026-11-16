@@ -229,8 +229,8 @@ importers:
         specifier: 0.8.2
         version: 0.8.2(@devframes/agentic@1.3.3)(@voidzero-dev/vite-plus-core@1.6.0(@types/node@22.20.5)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1))(cac@7.1.0)(crossws@0.4.17(srvx@1.0.8))(srvx@1.0.8)
       '@vitejs/plugin-vue':
-        specifier: 6.0.10
-        version: 6.0.10(@voidzero-dev/vite-plus-core@1.6.0(@types/node@22.20.5)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1))(vue@3.5.45(typescript@7.0.2))
+        specifier: 6.0.11
+        version: 6.0.11(@voidzero-dev/vite-plus-core@1.6.0(@types/node@22.20.5)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1))(vue@3.5.45(typescript@7.0.2))
       '@vitest/coverage-v8':
         specifier: 'catalog:'
         version: 5.1.0(@vitest/browser@5.1.0)(vitest@5.1.0)
@@ -1300,12 +1300,12 @@ packages:
     peerDependencies:
       vite: '*'
 
-  '@vitejs/plugin-vue@6.0.10':
-    resolution: {integrity: sha512-b80aUQh3n+qEzzZm5oQp3rT2QImeCx58K6eFl/RkJ3d65KW0kTuv5lNsLRVAjbW9YRUpo/wzmvzMgV34bTAItA==}
+  '@vitejs/plugin-vue@6.0.11':
+    resolution: {integrity: sha512-m48lskIUJGlB6qUiYhDMI8nd2ngeidz2U4nKTjqI13cFMu5rH8JeEILPkDtK9Fk/TjBA2pkj8AlbenqDaKu+ww==}
     engines: {node: ^20.19.0 || >=22.12.0}
     peerDependencies:
       vite: ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
-      vue: ^3.2.25 || ^3.6.0-rc.10
+      vue: ^3.2.25 || ^3.6.0-rc.15
 
   '@vitest/browser-preview@5.1.0':
     resolution: {integrity: sha512-z9SbodBSMoJtYy5VTCaSP5SSZfNYRlfIlR0P/uH1PAuhUJbstSyOYvxXCYmqG+EemIiZzd3uGUtREX5zbXLR8A==}
@@ -3621,7 +3621,7 @@ snapshots:
       - ocache
       - srvx
 
-  '@vitejs/plugin-vue@6.0.10(@voidzero-dev/vite-plus-core@1.6.0(@types/node@22.20.5)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1))(vue@3.5.45(typescript@7.0.2))':
+  '@vitejs/plugin-vue@6.0.11(@voidzero-dev/vite-plus-core@1.6.0(@types/node@22.20.5)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1))(vue@3.5.45(typescript@7.0.2))':
     dependencies:
       '@rolldown/pluginutils': 1.0.1
       vite: '@voidzero-dev/vite-plus-core@1.6.0(@types/node@22.20.5)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1)'
@@ -5071,7 +5071,7 @@ snapshots:
       '@iconify-json/simple-icons': 1.2.102
       '@shikijs/transformers': 4.6.0
       '@types/markdown-it': 14.2.0
-      '@vitejs/plugin-vue': 6.0.10(@voidzero-dev/vite-plus-core@1.6.0(@types/node@22.20.5)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1))(vue@3.5.45(typescript@7.0.2))
+      '@vitejs/plugin-vue': 6.0.11(@voidzero-dev/vite-plus-core@1.6.0(@types/node@22.20.5)(jiti@2.7.0)(typescript@7.0.2)(yaml@2.9.1))(vue@3.5.45(typescript@7.0.2))
       '@vue/devtools-api': 8.2.1
       '@vue/shared': 3.5.45
       '@vueuse/core': 15.0.0(vue@3.5.45(typescript@7.0.2))
